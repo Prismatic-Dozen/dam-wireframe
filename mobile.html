@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odisha Dam Safety - Mobile Field App Wireframe Simulator</title>
+    <link rel="stylesheet" href="mobile-styles.css">
+</head>
+<body>
+
+    <div class="simulator-wrapper">
+
+        <!-- LEFT SIDE: MOBILE DEVICE SHELL -->
+        <div class="phone-shell">
+            <!-- Physical notch -->
+            <div class="phone-notch">
+                <div class="phone-speaker"></div>
+            </div>
+
+            <!-- Virtual Status Bar -->
+            <div class="phone-status-bar">
+                <span>10:30 AM</span>
+                <span id="mob-net-indicator" class="offline-indicator-header" style="display: none;">OFFLINE</span>
+                <div class="status-bar-right">
+                    <span>📶 LTE</span>
+                    <span>🔋 85%</span>
+                </div>
+            </div>
+
+            <!-- VIEWPORT SCREEN -->
+            <div class="phone-screen">
+                
+                <!-- Connection Offline Alert banner -->
+                <div class="offline-banner" id="mob-offline-banner">
+                    ⚠️ Working Offline - Local Storage Active
+                </div>
+
+                <!-- Sticky Header -->
+                <header class="mobile-header">
+                    <button class="mobile-header-btn" onclick="showMobileScreen('screen-mob-dashboard')">◀ Back</button>
+                    <span class="mobile-header-title" id="mob-header-title">Field Dashboard</span>
+                    <button class="mobile-header-btn" onclick="showMobileScreen('screen-mob-sync')">🔄 Sync</button>
+                </header>
+
+                <!-- Scrollable Viewport Content -->
+                <div class="mobile-content">
+
+                    <!-- SCREEN 1: LOGIN -->
+                    <div id="screen-mob-login" class="mobile-screen-view active">
+                        <div style="text-align:center; padding: 20px 0;">
+                            <div style="width: 60px; height: 60px; border:2px dashed #333; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; background:#eee;">
+                                <strong>LOGO</strong>
+                            </div>
+                            <h3 style="font-size:16px;">ODISHA WATER DIVISION</h3>
+                            <p style="font-size:10px; font-weight:bold; color:#666;">Dam Safety Field Inspector App</p>
+                        </div>
+
+                        <div class="mobile-card">
+                            <form onsubmit="handleMobileLogin(event)">
+                                <div class="mobile-form-group">
+                                    <label>Mobile Number / Username</label>
+                                    <input type="text" class="mobile-input" value="9438012345" required>
+                                </div>
+                                <div class="mobile-form-group">
+                                    <label>PIN / Password</label>
+                                    <input type="password" class="mobile-input" value="••••" required>
+                                </div>
+                                <button type="submit" class="mobile-btn primary" style="width:100%; justify-content:center; margin-top:10px;">
+                                    🔓 AUTHORIZE LOG IN
+                                </button>
+                            </form>
+                        </div>
+                        <div style="text-align:center; font-size:10px; font-weight:bold;">
+                            <a href="#" onclick="alert('Contact circle admin for PIN recovery.')" style="color:#333;">Forgot PIN?</a>
+                            <div style="margin-top:15px; color:#666;">🔒 Supports offline field logging.</div>
+                        </div>
+                    </div>
+
+                    <!-- SCREEN 2: FIELD DASHBOARD -->
+                    <div id="screen-mob-dashboard" class="mobile-screen-view">
+                        <div class="mobile-card" style="background-color:#f9f9f9; text-align:center;">
+                            <div style="font-size:11px; font-weight:bold; color:#666;">DEVICE SYNC STATUS</div>
+                            <div style="display:flex; justify-content:space-around; margin-top:10px;">
+                                <div>
+                                    <div style="font-size:18px; font-weight:bold;" id="dash-offline-count">0</div>
+                                    <div style="font-size:8px; color:#555;">Offline Files</div>
+                                </div>
+                                <div>
+                                    <div style="font-size:18px; font-weight:bold; color:#cc0000;" id="dash-pending-sync">0</div>
+                                    <div style="font-size:8px; color:#555;">Pending Sync</div>
+                                </div>
+                            </div>
+                            <div style="font-size:8px; color:#888; margin-top:8px;">Last Synced: <span id="dash-last-sync">Never</span></div>
+                        </div>
+
+                        <!-- Assigned Inspections Summary Row -->
+                        <h4 style="font-size:11px; font-weight:bold; margin-bottom:6px;">🔔 FIELD JOBS TASK SUMMARY</h4>
+                        <div class="row" style="margin-bottom:10px;">
+                            <div class="col-6">
+                                <div class="mobile-card" style="text-align:center; padding:10px; border-color:#cc0000;" onclick="showMobileScreen('screen-mob-inspections')">
+                                    <div style="font-size:22px;">📅</div>
+                                    <div style="font-size:11px; font-weight:bold;">Today's Jobs</div>
+                                    <div style="font-size:9px; color:#cc0000; font-weight:bold; margin-top:2px;">1 Inspection</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mobile-card" style="text-align:center; padding:10px;" onclick="showMobileScreen('screen-mob-inspections')">
+                                    <div style="font-size:22px;">📋</div>
+                                    <div style="font-size:11px; font-weight:bold;">Assigned Jobs</div>
+                                    <div style="font-size:9px; color:#666; margin-top:2px;">3 Scheduled</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="mobile-card" style="text-align:center; padding:10px; border-color:#ffb84d;" onclick="showMobileScreen('screen-mob-alerts')">
+                                    <div style="font-size:22px;">⚠️</div>
+                                    <div style="font-size:11px; font-weight:bold;">Alerts</div>
+                                    <div style="font-size:9px; color:#ffb84d; font-weight:bold; margin-top:2px;">4 Alarms</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mobile-card" style="text-align:center; padding:10px;" onclick="showMobileScreen('screen-mob-sync')">
+                                    <div style="font-size:22px;">🔄</div>
+                                    <div style="font-size:11px; font-weight:bold;">Sync Center</div>
+                                    <div style="font-size:9px; color:#555; margin-top:2px;">Check Queue</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="mobile-btn primary" onclick="showMobileScreen('screen-mob-inspections')" style="width:100%; justify-content:center; margin-top:10px;">
+                            🚀 START FIELD INSPECTION
+                        </button>
+                    </div>
+
+                    <!-- SCREEN 3: ASSIGNED INSPECTIONS -->
+                    <div id="screen-mob-inspections" class="mobile-screen-view">
+                        <div class="mobile-card" style="padding: 6px; margin-bottom:10px; display:flex; justify-content:space-around; font-size:10px; font-weight:bold;">
+                            <span style="border-bottom:2px solid #333; padding-bottom:2px; cursor:pointer;">Today</span>
+                            <span style="color:#666; cursor:pointer;">Upcoming</span>
+                            <span style="color:#666; cursor:pointer;">Overdue</span>
+                        </div>
+
+                        <div id="mob-inspections-list">
+                            <!-- Filled dynamically by loadMobileInspections() -->
+                        </div>
+                    </div>
+
+                    <!-- SCREEN 4: DAM SELECT / PROFILE -->
+                    <div id="screen-mob-dam-profile" class="mobile-screen-view">
+                        <div class="mobile-card">
+                            <h3 id="mob-prof-name" style="font-size:15px; border-bottom:2px solid #333; padding-bottom:4px; margin-bottom:8px;">Hirakud Dam</h3>
+                            <table class="wireframe-table" style="font-size:10px;">
+                                <tr><th>ID:</th><td id="mob-prof-id">D00123</td></tr>
+                                <tr><th>District:</th><td id="mob-prof-dist">Sambalpur</td></tr>
+                                <tr><th>Division:</th><td id="mob-prof-div">Sambalpur Div</td></tr>
+                                <tr><th>Basin:</th><td id="mob-prof-basin">Mahanadi</td></tr>
+                                <tr><th>River:</th><td id="mob-prof-river">Mahanadi</td></tr>
+                                <tr><th>Type:</th><td id="mob-prof-type">Masonry</td></tr>
+                                <tr><th>Safety:</th><td id="mob-prof-class" style="color:#cc0000; font-weight:bold;">High Risk</td></tr>
+                                <tr><th>Last Insp:</th><td id="mob-prof-lastinsp">12 Apr 2025</td></tr>
+                            </table>
+                        </div>
+
+                        <div class="row" style="margin-bottom:10px; text-align:center; font-size:10px; font-weight:bold;">
+                            <div class="col-4">
+                                <div style="border:1px solid #333; padding:5px; background:#ffe5e5; color:#cc0000;">
+                                    <div id="mob-prof-crit">8</div>
+                                    <div>Critical</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div style="border:1px solid #333; padding:5px; background:#fff4e5; color:#cc7a00;">
+                                    <div id="mob-prof-open">12</div>
+                                    <div>Open Obs</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div style="border:1px solid #333; padding:5px; background:#e5ffe5; color:#008000;">
+                                    <div id="mob-prof-works">3</div>
+                                    <div>Works</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="mobile-btn primary" onclick="handleStartInspection()" style="width:100%; justify-content:center; margin-top:10px;">
+                            📝 START FIELD SAFETY INSPECTION
+                        </button>
+                    </div>
+
+                    <!-- SCREEN 5: INSPECTION DETAILS -->
+                    <div id="screen-mob-details" class="mobile-screen-view">
+                        <div class="mobile-card">
+                            <h4 style="font-size:12px; border-bottom:1px solid #999; margin-bottom:6px;">INSPECTION MEMORANDUM</h4>
+                            <table class="wireframe-table" style="font-size:10px;">
+                                <tr><th>Target Dam</th><td id="mob-det-damname">Hirakud Dam</td></tr>
+                                <tr><th>Dam ID</th><td id="mob-det-damid">D00123</td></tr>
+                                <tr><th>Job Type</th><td>Pre-Monsoon Inspection</td></tr>
+                                <tr><th>Due Date</th><td>Today, 13 Aug 2026</td></tr>
+                                <tr><th>Team Code</th><td>Team A (S. Mohapatra)</td></tr>
+                                <tr><th>Officer</th><td>Executive Engineer</td></tr>
+                            </table>
+                        </div>
+
+                        <div class="mobile-card" style="font-size:10px;">
+                            <strong>Special Field Directives:</strong>
+                            <p style="margin-top:4px; font-style:italic;">Check structural block 12 for concrete cracking and calibrate radial gate hoists. Ensure gallery drainage conduits are clean of lime/calcification deposits.</p>
+                        </div>
+
+                        <button class="mobile-btn primary" onclick="showMobileScreen('screen-mob-checklist')" style="width:100%; justify-content:center;">
+                            📋 START INSPECTION CHECKLIST
+                        </button>
+                    </div>
+
+                    <!-- SCREEN 6: INSPECTION CHECKLIST -->
+                    <div id="screen-mob-checklist" class="mobile-screen-view">
+                        <div style="font-size:10px; font-weight:bold; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+                            <span>Progress: Checklist Tasks</span>
+                            <button class="mobile-btn" onclick="showMobileScreen('screen-mob-record-observation')" style="min-height:30px; font-size:10px; padding:3px 8px;">
+                                ➕ Record Defect / Obs
+                            </button>
+                        </div>
+
+                        <div id="mob-checklist-container">
+                            <!-- Populated dynamically by loadMobileChecklist() -->
+                        </div>
+
+                        <button class="mobile-btn primary" onclick="showMobileScreen('screen-mob-review-submit')" style="width:100%; justify-content:center; margin-top:20px;">
+                            🧐 REVIEW & SUBMIT REPORT
+                        </button>
+                    </div>
+
+                    <!-- SCREEN 7: RECORD OBSERVATION -->
+                    <div id="screen-mob-record-observation" class="mobile-screen-view">
+                        <div class="mobile-card">
+                            <form onsubmit="handleSaveObservation(event)">
+                                <div class="mobile-form-group">
+                                    <label>Defect Category</label>
+                                    <select id="mob-obs-cat" class="wireframe-select" style="width:100%;">
+                                        <option>Structural Repairs</option>
+                                        <option>Hydromechanical</option>
+                                        <option>Electrical</option>
+                                        <option>Instrumentation</option>
+                                        <option>Drainage/Civil</option>
+                                    </select>
+                                </div>
+                                <div class="mobile-form-group">
+                                    <label>Description of Issue</label>
+                                    <textarea id="mob-obs-desc" class="mobile-input" style="height:60px;" placeholder="Describe crack width, seepage flow rate..." required></textarea>
+                                </div>
+                                <div class="mobile-form-group">
+                                    <label>Severity Level</label>
+                                    <select id="mob-obs-sev" class="wireframe-select" style="width:100%; font-weight:bold; color:#cc0000;">
+                                        <option value="Critical">🚨 Critical (Immediate 24h action)</option>
+                                        <option value="High">⚠️ High (Action in 7 days)</option>
+                                        <option value="Medium">Medium (Maintenance)</option>
+                                        <option value="Low">Low (Informational)</option>
+                                    </select>
+                                </div>
+                                <div class="mobile-form-group">
+                                    <label>Target Resolution Date</label>
+                                    <input type="date" id="mob-obs-target" class="mobile-input">
+                                </div>
+
+                                <div style="display:flex; gap:10px; margin-top:15px;">
+                                    <button type="button" class="mobile-btn" onclick="showMobileScreen('screen-mob-evidence')" style="flex:1;">
+                                        📷 Capture Photo
+                                    </button>
+                                    <button type="submit" class="mobile-btn primary" style="flex:1; justify-content:center;">
+                                        💾 Save Defect
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- SCREEN 8: CAPTURE PHOTO EVIDENCE -->
+                    <div id="screen-mob-evidence" class="mobile-screen-view">
+                        <div class="mobile-card">
+                            <div class="mobile-camera-view" id="camera-frame">
+                                <!-- Photo list preview will render here -->
+                            </div>
+                            <div style="font-size:9px; font-weight:bold; color:#666; margin-top:6px; display:flex; justify-content:space-between;">
+                                <span>GPS: 21.57212 N, 83.87105 E</span>
+                                <span>Alt: 160m</span>
+                            </div>
+                        </div>
+
+                        <div id="mob-photo-previews" style="margin-bottom:10px; white-space:nowrap; overflow-x:auto; padding:5px 0;">
+                            <!-- Dynamically preview files -->
+                        </div>
+
+                        <div style="display:flex; gap:10px;">
+                            <button class="mobile-btn primary" onclick="handleAttachPhoto()" style="flex:1; justify-content:center;">
+                                📸 CAPTURE PHOTOGRAPH
+                            </button>
+                            <button class="mobile-btn" onclick="showMobileScreen('screen-mob-record-observation')" style="flex:1; justify-content:center;">
+                                Done
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SCREEN 9: OBSERVATION DETAIL -->
+                    <div id="screen-mob-observation-detail" class="mobile-screen-view">
+                        <div class="mobile-card">
+                            <div style="display:flex; justify-content:between; align-items:center; border-bottom:1px solid #333; padding-bottom:5px; margin-bottom:8px;">
+                                <strong>OBS-MOB-001</strong>
+                                <span class="status-pill red" style="font-size:8px;">Critical</span>
+                            </div>
+                            <p style="font-size:12px; font-weight:bold; margin-bottom:8px;">Concrete crack identified along block 12 face width exceeds 8mm.</p>
+                            <div class="wireframe-photo-placeholder" style="height:120px; margin-bottom:8px;">
+                                <span>📷 block12_crack.jpg</span>
+                            </div>
+                            <table class="wireframe-table" style="font-size:9px;">
+                                <tr><th>Category:</th><td>Structural Repairs</td></tr>
+                                <tr><th>GPS:</th><td>21.5721 N, 83.8710 E</td></tr>
+                                <tr><th>Target:</th><td>30 Jun 2025</td></tr>
+                                <tr><th>Status:</th><td>Identified</td></tr>
+                            </table>
+                        </div>
+                        <button class="mobile-btn" onclick="showMobileScreen('screen-mob-dashboard')" style="width:100%; justify-content:center;">Back to Home</button>
+                    </div>
+
+                    <!-- SCREEN 10: CORRECTIVE ACTION -->
+                    <div id="screen-mob-corrective-action" class="mobile-screen-view">
+                        <div class="mobile-card">
+                            <div style="font-size:11px; font-weight:bold; border-bottom:1px solid #333; padding-bottom:4px; margin-bottom:8px;">CORRECTIVE WORK PROFILE</div>
+                            <strong style="font-size:12px;">ACT-2025-201: Epoxy Grouting Block 12</strong>
+                            <p style="font-size:10px; color:#555; margin-top:4px;">Deploy epoxy grout packers to seal upstream cracks and mitigate leakage flow.</p>
+                            
+                            <table class="wireframe-table" style="font-size:10px; margin-top:10px;">
+                                <tr><th>Priority:</th><td><span class="status-pill red" style="font-size:8px;">Critical</span></td></tr>
+                                <tr><th>Officer:</th><td>S. K. Patnaik, EE</td></tr>
+                                <tr><th>Target Date:</th><td>30 Jun 2025</td></tr>
+                                <tr><th>Progress:</th><td>40% Completed</td></tr>
+                            </table>
+
+                            <div style="margin-top:15px;">
+                                <div style="font-size:9px; font-weight:bold; margin-bottom:4px;">Workflow Phase:</div>
+                                <div style="display:flex; justify-content:space-between; font-size:8px; font-weight:bold; border:1px solid #333; padding:4px; background:#eee;">
+                                    <span>Assigned</span> ➔ <span style="background:#ddd; padding:1px 3px;">Initiated</span> ➔ <span>Resolved</span> ➔ <span>Closed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SCREEN 11: WORK PROGRESS CAPTURE -->
+                    <div id="screen-mob-work-progress" class="mobile-screen-view">
+                        <div class="mobile-card">
+                            <form onsubmit="handleSubmitWorkProgress(event)">
+                                <div class="mobile-form-group">
+                                    <label>Active Work Order</label>
+                                    <select class="wireframe-select" style="width:100%;">
+                                        <option value="WRK-2025-401">WRK-2025-401: Epoxy Grouting</option>
+                                        <option value="WRK-2025-402">WRK-2025-402: Telemetric Sensor</option>
+                                    </select>
+                                </div>
+                                <div class="mobile-form-group">
+                                    <label>Target Milestone</label>
+                                    <select id="mob-work-milestone" class="wireframe-select" style="width:100%;">
+                                        <option>Epoxy Grout Injection Work (35% wt)</option>
+                                        <option>Post-grouting permeability test (15% wt)</option>
+                                    </select>
+                                </div>
+                                <div class="mobile-form-group">
+                                    <label>Milestone Progress Completed (%)</label>
+                                    <div style="display:flex; align-items:center; gap:10px;">
+                                        <input type="range" id="mob-work-progress-val" min="0" max="100" value="45" style="flex-grow:1;" oninput="document.getElementById('slider-val').innerText = this.value + '%'">
+                                        <span id="slider-val" style="font-weight:bold; font-size:13px;">45%</span>
+                                    </div>
+                                </div>
+                                <div class="mobile-form-group">
+                                    <label>Field Progress Remarks</label>
+                                    <textarea class="mobile-input" style="height:50px;" placeholder="Grouting nozzle pressures stable at 5 bar..."></textarea>
+                                </div>
+                                
+                                <div style="border:1px dashed #999; padding:8px; border-radius:4px; margin-bottom:12px; text-align:center;">
+                                    <button type="button" class="mobile-btn" style="min-height:30px; font-size:10px; padding:4px 8px;" onclick="alert('Photo evidence attached to work progress.')">
+                                        📷 Attach Progress Photo
+                                    </button>
+                                </div>
+
+                                <button type="submit" class="mobile-btn primary" style="width:100%; justify-content:center;">
+                                    📤 SUBMIT PROGRESS REPORT
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- SCREEN 12: REVIEW & SUBMIT INSPECTION -->
+                    <div id="screen-mob-review-submit" class="mobile-screen-view">
+                        <div class="mobile-card">
+                            <h4 style="font-size:12px; border-bottom:1px solid #333; padding-bottom:4px; margin-bottom:10px;">INSPECTION RECORD SUMMARY</h4>
+                            
+                            <table class="wireframe-table" style="font-size:11px;">
+                                <tr><th>Tasks Checked:</th><td id="rev-chk-complete">3 tasks complete</td></tr>
+                                <tr><th>Defect Observations:</th><td id="rev-obs-count" style="font-weight:bold; color:red;">1 recorded</td></tr>
+                                <tr><th>Photos Captured:</th><td id="rev-photos-count">1 photo</td></tr>
+                                <tr><th>Offline Storage Mode:</th><td style="font-weight:bold; color:orange;">Draft Mode</td></tr>
+                            </table>
+
+                            <div style="background-color:#ffe5e5; color:#cc0000; border:1px solid #ff9999; border-radius:4px; padding:8px; font-size:9px; margin-top:10px; display:none;" id="rev-warning-msg">
+                                <!-- Dynamic validation warnings -->
+                            </div>
+                        </div>
+
+                        <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+                            <button class="mobile-btn primary" onclick="handleMobileFinalSubmit()" style="justify-content:center;">
+                                💾 SAVE DRAFT INSPECTION
+                            </button>
+                            <button class="mobile-btn" onclick="showMobileScreen('screen-mob-checklist')" style="justify-content:center;">
+                                ↩ Edit Checklist
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SCREEN 13: SYNC CENTER -->
+                    <div id="screen-mob-sync" class="mobile-screen-view">
+                        <div class="mobile-card" style="text-align:center;">
+                            <div style="font-size:12px; font-weight:bold; color:#666;">FIELD DATA SYNC CONTROL</div>
+                            <div style="font-size:24px; margin:10px 0;">🔄</div>
+                            <div style="font-size:12px; font-weight:bold;" id="sync-connection-text">Connected (Online)</div>
+                        </div>
+
+                        <div class="mobile-card" style="font-size:11px;">
+                            <h4 style="border-bottom:1px solid #ccc; padding-bottom:4px; margin-bottom:8px;">Pending Upload Queue</h4>
+                            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                                <span>Saved Offline Inspections:</span>
+                                <strong id="sync-insps-count">0</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                                <span>Unsynced Observations:</span>
+                                <strong id="sync-obs-count">0</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                                <span>Pending Milestone Updates:</span>
+                                <strong id="sync-works-count">0</strong>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; flex-direction:column; gap:8px;">
+                            <button class="mobile-btn primary" onclick="triggerSyncNow()" style="justify-content:center;">
+                                🚀 SYNCHRONIZE DATA NOW
+                            </button>
+                            <button class="mobile-btn" onclick="alert('Retrying failed upload items...')" style="justify-content:center;">
+                                Retry Failed Uploads
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SCREEN 14: ALERTS -->
+                    <div id="screen-mob-alerts" class="mobile-screen-view">
+                        <div style="font-size:11px; font-weight:bold; margin-bottom:8px;">🔔 FIELD ALARMS & JOBS</div>
+                        
+                        <div class="mobile-card" style="border-left: 4px solid #ff4d4d; padding:8px 12px; margin-bottom:8px;">
+                            <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:10px; color:#cc0000;">
+                                <span>🚨 CRITICAL ALARM</span>
+                                <span>Today</span>
+                            </div>
+                            <div style="font-size:11px; font-weight:bold; margin-top:2px;">Hirakud spill face cracks (OBS-2025-101) requires immediate grouting.</div>
+                        </div>
+
+                        <div class="mobile-card" style="border-left: 4px solid #ffb84d; padding:8px 12px; margin-bottom:8px;">
+                            <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:10px; color:#cc7a00;">
+                                <span>📅 INSPECTION DUE</span>
+                                <span>18 Aug</span>
+                            </div>
+                            <div style="font-size:11px; font-weight:bold; margin-top:2px;">Periodic Safety inspection scheduled for Rengali Dam.</div>
+                        </div>
+
+                        <div class="mobile-card" style="border-left: 4px solid #ffb84d; padding:8px 12px;">
+                            <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:10px; color:#cc7a00;">
+                                <span>🔧 ACTION ASSIGNED</span>
+                                <span>25 Aug</span>
+                            </div>
+                            <div style="font-size:11px; font-weight:bold; margin-top:2px;">Clear downstream toe drains assigned (ACT-2025-203) at Balimela.</div>
+                        </div>
+                    </div>
+
+                    <!-- SCREEN 15: PROFILE / MORE -->
+                    <div id="screen-mob-profile" class="mobile-screen-view">
+                        <div class="mobile-card" style="text-align:center;">
+                            <div style="width:60px; height:60px; border-radius:50%; border:2px solid #333; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; background:#eee; font-size:24px;">👤</div>
+                            <strong style="font-size:14px;">G. C. Biswal</strong>
+                            <div style="font-size:10px; color:#666;">Junior Engineer, Koraput Division</div>
+                        </div>
+
+                        <div class="mobile-card" style="font-size:11px; padding:6px 12px;">
+                            <div style="padding:6px 0; border-bottom:1px dashed #eee; cursor:pointer;" onclick="alert('Circle Command: Southern Circle \nDivisions: Koraput Area')">📍 Assigned Jurisdiction</div>
+                            <div style="padding:6px 0; border-bottom:1px dashed #eee; cursor:pointer;" onclick="showMobileScreen('screen-mob-sync')">⚙️ Offline Sync Settings</div>
+                            <div style="padding:6px 0; border-bottom:1px dashed #eee; cursor:pointer;" onclick="alert('Help Manual downloaded locally.')">❓ Help & Safety Protocols</div>
+                        </div>
+
+                        <button class="mobile-btn danger" onclick="handleLogout()" style="width:100%; justify-content:center;">
+                            🔓 LOG OUT
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Bottom Sticky Tab Navigation Bar -->
+                <nav class="mobile-nav-bar">
+                    <a class="mobile-nav-tab active" id="tab-home" onclick="showMobileScreen('screen-mob-dashboard')">
+                        <span class="mobile-nav-icon">🏠</span>
+                        <span>Home</span>
+                    </a>
+                    <a class="mobile-nav-tab" id="tab-inspections" onclick="showMobileScreen('screen-mob-inspections')">
+                        <span class="mobile-nav-icon">📋</span>
+                        <span>Jobs</span>
+                    </a>
+                    <a class="mobile-nav-tab" id="tab-works" onclick="showMobileScreen('screen-mob-work-progress')">
+                        <span class="mobile-nav-icon">🏗️</span>
+                        <span>Works</span>
+                    </a>
+                    <a class="mobile-nav-tab" id="tab-alerts" onclick="showMobileScreen('screen-mob-alerts')">
+                        <span class="mobile-nav-icon">🔔</span>
+                        <span>Alarms</span>
+                    </a>
+                    <a class="mobile-nav-tab" id="tab-more" onclick="showMobileScreen('screen-mob-profile')">
+                        <span class="mobile-nav-icon">⚙️</span>
+                        <span>More</span>
+                        <!-- Unsynced Badge Counter -->
+                        <span class="nav-badge" id="nav-sync-badge" style="display: none;">0</span>
+                    </a>
+                </nav>
+
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE: SIMULATOR CONTROL DASHBOARD -->
+        <div class="simulator-controls">
+            <div class="controls-section">
+                <h3 class="controls-title">📱 Simulator Controller</h3>
+                <p style="font-size:11px; margin-bottom:10px;">Use these debug controls to simulate field conditions at remote dam sites.</p>
+                
+                <div class="mobile-form-group">
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:12px; font-weight:bold;">
+                        <input type="checkbox" id="sim-network-chk" checked onchange="setNetworkStatus(this.checked)">
+                        Simulate Device Connection (Online)
+                    </label>
+                </div>
+                <div style="font-size:10px; color:#555; font-style:italic;">
+                    * Uncheck the option to simulate loss of cellular network coverage. All checklists, observations and progress entries will be stored offline.
+                </div>
+            </div>
+
+            <div class="controls-section">
+                <h4 style="font-size:12px; font-weight:bold; margin-bottom:8px;">🔗 Integrated Suite Actions</h4>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <a href="index.html" class="wireframe-btn" style="justify-content:center; font-size:12px; text-decoration:none;">
+                        ⬅️ Return to Desktop Dam Registry
+                    </a>
+                    <button class="wireframe-btn" onclick="location.reload()" style="justify-content:center; font-size:12px;">
+                        🔄 Reset Simulator Cache
+                    </button>
+                </div>
+            </div>
+
+            <div class="controls-section" style="flex-grow:1;">
+                <h4 style="font-size:12px; font-weight:bold; margin-bottom:4px;">📟 Console Log Trails</h4>
+                <div class="console-box" id="sim-console">
+                    <div class="console-line">Initializing Mobile Client simulator framework...</div>
+                    <div class="console-line">Ready. Waiting for user actions.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="mobile-app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrated Dam Safety Management & Monitoring System - Wireframe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="logged-out">
+
+    <!-- SCREEN 1: LOGIN SCREEN (Rendered standalone initially) -->
+    <div id="screen-login" class="screen-view login-screen-view active">
+        <div class="login-card">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <!-- Balsamiq logo placeholder -->
+                <div class="logo-placeholder" style="height: 80px; width: 80px; margin: 0 auto 10px;">
+                    <div class="logo-text" style="font-size: 10px;">Logo</div>
+                </div>
+                <h2 style="font-size: 20px; font-weight: bold; border-bottom: 2px solid #333333; padding-bottom: 8px;">
+                    ODISHA DAM SAFETY WING
+                </h2>
+                <p style="font-size: 11px; font-weight: bold; color: #666666; margin-top: 5px;">
+                    Integrated Dam Safety Management & Monitoring System
+                </p>
+            </div>
+
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">Username / Email</label>
+                    <input type="text" id="username" class="wireframe-input" value="engineer@odishawater.gov.in" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="wireframe-input" value="••••••••" required>
+                </div>
+                <div class="form-group">
+                    <label for="captcha">Verify Captcha</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="captcha-input" class="wireframe-input" style="flex-grow: 1;" placeholder="Enter text" required>
+                        <div class="captcha-box" style="width: 120px; flex-shrink: 0;">R 8 X 9 B</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="wireframe-btn primary" style="width: 100%; margin-top: 15px; justify-content: center;">
+                    LOG IN
+                </button>
+            </form>
+
+            <div style="text-align: center; margin-top: 15px; font-size: 11px; font-weight: bold;">
+                <a href="#" onclick="alert('Password reset link sent to registered mobile/email.')" style="color: #333333;">Forgot Password?</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP WRAPPER (Shown post-login) -->
+    <div class="app-wrapper">
+        
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    <div class="logo-text">DAM SAFETY WING</div>
+                </div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showScreen('screen-state-dashboard')">
+                        <span class="nav-icon">📊</span> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showScreen('screen-dam-registry')">
+                        <span class="nav-icon">🧱</span> Dams Registry
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showScreen('screen-inspection-management')">
+                        <span class="nav-icon">🔍</span> Inspections
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showScreen('screen-observation-management')">
+                        <span class="nav-icon">⚠️</span> Observations
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showScreen('screen-corrective-actions')">
+                        <span class="nav-icon">🔧</span> Corrective Actions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showScreen('screen-work-management')">
+                        <span class="nav-icon">🏗️</span> Works
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showScreen('screen-vendor-management')">
+                        <span class="nav-icon">🤝</span> Vendors
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showScreen('screen-document-management')">
+                        <span class="nav-icon">📁</span> Documents
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showScreen('screen-approval-center')">
+                        <span class="nav-icon">✅</span> Approvals / Tasks
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showScreen('screen-alert-center')">
+                        <span class="nav-icon">🔔</span> Alert Center
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showScreen('screen-gis-map')">
+                        <span class="nav-icon">🗺️</span> GIS Map
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showScreen('screen-reports')">
+                        <span class="nav-icon">📈</span> Reports / MIS
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showScreen('screen-historical-record')">
+                        <span class="nav-icon">📜</span> Audit / History
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showScreen('screen-master-data')">
+                        <span class="nav-icon">💾</span> Master Data
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showScreen('screen-user-roles')">
+                        <span class="nav-icon">👥</span> User Management
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="legend-box">
+                    <div class="legend-title">STATUS LEGEND</div>
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                        <div><span class="status-dot red"></span> RED = Immediate Intervention</div>
+                        <div><span class="status-dot amber"></span> AMBER = Attention Required</div>
+                        <div><span class="status-dot green"></span> GREEN = Normal Status</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; border-top: 2px dashed #999999; padding-top: 10px;">
+                    <a href="mobile.html" target="_blank" class="wireframe-btn primary" style="width: 100%; justify-content: center; font-size: 11px; text-decoration: none;">
+                        📱 Mobile Field App Simulator
+                    </a>
+                </div>
+                <button class="wireframe-btn" onclick="handleLogout()" style="width: 100%; margin-top: 10px; justify-content: center; font-size: 11px;">
+                    🔓 Log Out
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTAINER -->
+        <main class="main-container">
+            
+            <!-- TOP HEADER -->
+            <header class="top-header">
+                <div class="header-left">
+                    <div class="breadcrumbs">
+                        <span>SYSTEM</span> &gt; <span id="breadcrumb-current" class="current">DASHBOARD</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="role-selector-wrap">
+                        <span>Role:</span>
+                        <select class="wireframe-select" onchange="setRole(this.value)">
+                            <option value="State Management">State Management</option>
+                            <option value="Chief Engineer">Chief Engineer</option>
+                            <option value="Superintending Engineer">Superintending Engineer</option>
+                            <option value="Executive Engineer" selected>Executive Engineer</option>
+                            <option value="Assistant Executive Engineer">Assistant Executive Engineer</option>
+                            <option value="Assistant Engineer">Assistant Engineer</option>
+                            <option value="Junior Engineer">Junior Engineer</option>
+                            <option value="Dam Authority">Dam Authority</option>
+                            <option value="Vendor/Contractor">Vendor/Contractor</option>
+                            <option value="Consultant">Consultant</option>
+                        </select>
+                    </div>
+                    
+                    <button class="icon-button" onclick="showScreen('screen-alert-center')">
+                        <span>🔔</span>
+                        <span class="badge">4</span>
+                    </button>
+                    
+                    <div class="user-profile-badge">
+                        <div class="user-avatar">EE</div>
+                        <span id="current-role-display">Executive Engineer</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- PAGE CONTENT CONTAINER -->
+            <div class="page-content">
+
+                <!-- 2. STATE MANAGEMENT DASHBOARD -->
+                <div id="screen-state-dashboard" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">STATE MANAGEMENT DASHBOARD</h2>
+                            <p class="section-subtitle">Management-by-Exception Portal (Odisha State Dams Safety Division)</p>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <select class="wireframe-select"><option>State: Odisha</option></select>
+                            <select class="wireframe-select"><option>All Districts</option></select>
+                            <button class="wireframe-btn">📅 Select Dates</button>
+                        </div>
+                    </div>
+
+                    <!-- KPI Cards Row -->
+                    <div class="row">
+                        <div class="kpi-card" onclick="showScreen('screen-dam-registry')">
+                            <div class="kpi-header"><span>TOTAL DAMS</span><span>🧱</span></div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value" id="kpi-total-dams">8</span>
+                                <span class="status-dot green"></span>
+                            </div>
+                        </div>
+                        <div class="kpi-card" onclick="showScreen('screen-inspection-management')">
+                            <div class="kpi-header"><span>INSPECTIONS DUE</span><span>📅</span></div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value">320</span>
+                                <span class="status-dot amber"></span>
+                            </div>
+                        </div>
+                        <div class="kpi-card" onclick="showScreen('screen-inspection-management')">
+                            <div class="kpi-header"><span>INSPECTIONS OVERDUE</span><span>⚠️</span></div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value" style="color: #ff4d4d;">78</span>
+                                <span class="status-dot red"></span>
+                            </div>
+                        </div>
+                        <div class="kpi-card" onclick="showScreen('screen-observation-management')">
+                            <div class="kpi-header"><span>CRITICAL OBS.</span><span>🚨</span></div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value" id="kpi-critical-obs" style="color: #ff4d4d;">2</span>
+                                <span class="status-dot red"></span>
+                            </div>
+                        </div>
+                        <div class="kpi-card" onclick="showScreen('screen-corrective-actions')">
+                            <div class="kpi-header"><span>OPEN ACTIONS</span><span>🔧</span></div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value" id="kpi-open-actions">156</span>
+                                <span class="status-dot amber"></span>
+                            </div>
+                        </div>
+                        <div class="kpi-card" onclick="showScreen('screen-corrective-actions')">
+                            <div class="kpi-header"><span>OVERDUE ACTIONS</span><span>⏰</span></div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value" id="kpi-overdue-actions" style="color: #ff4d4d;">38</span>
+                                <span class="status-dot red"></span>
+                            </div>
+                        </div>
+                        <div class="kpi-card" onclick="showScreen('screen-work-management')">
+                            <div class="kpi-header"><span>ONGOING WORKS</span><span>🏗️</span></div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value" id="kpi-ongoing-works">64</span>
+                                <span class="status-dot green"></span>
+                            </div>
+                        </div>
+                        <div class="kpi-card" onclick="showScreen('screen-work-management')">
+                            <div class="kpi-header"><span>DELAYED WORKS</span><span>🛑</span></div>
+                            <div class="kpi-value-row">
+                                <span class="kpi-value" id="kpi-delayed-works" style="color: #ffb84d;">21</span>
+                                <span class="status-dot amber"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exception Management Grids & Placeholders -->
+                    <div class="row">
+                        <!-- Left Block: Exception Data Tables -->
+                        <div class="col-8">
+                            <div style="border: 2px solid #333333; border-radius: 6px; padding: 15px; margin-bottom: 20px; box-shadow: 2px 2px 0 #333;">
+                                <h3 style="font-size: 14px; font-weight: bold; border-bottom: 2px solid #333333; padding-bottom: 6px; margin-bottom: 10px;">
+                                    ⚠️ Critical Safety Alerts (Immediate Intervention Required)
+                                </h3>
+                                <div class="table-container">
+                                    <table class="wireframe-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Dam Name</th>
+                                                <th>District</th>
+                                                <th>Safety Status</th>
+                                                <th>Observations</th>
+                                                <th>Overdue Actions</th>
+                                                <th>Ongoing Works</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="dashboard-status-table">
+                                            <!-- Dynamically filled by loadStateDashboard() -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Charts Placeholders (Mock wireframe blocks) -->
+                            <div class="row">
+                                <div class="col-6">
+                                    <div style="border: 2px solid #333; border-radius: 6px; padding: 12px; height: 200px; display: flex; flex-direction: column; justify-content: space-between;">
+                                        <div style="font-weight: bold; font-size: 12px; border-bottom: 1px solid #999;">Dams by District & Basin</div>
+                                        <!-- Wireframe bar chart -->
+                                        <div style="display: flex; align-items: flex-end; justify-content: space-around; height: 120px; border-left: 2px solid #333; border-bottom: 2px solid #333; padding-left: 5px; padding-bottom: 5px;">
+                                            <div style="width: 25px; height: 90px; background-color: #666; text-align: center; color: white; font-size: 9px; font-weight: bold;">90</div>
+                                            <div style="width: 25px; height: 60px; background-color: #888; text-align: center; color: white; font-size: 9px; font-weight: bold;">60</div>
+                                            <div style="width: 25px; height: 40px; background-color: #aaa; text-align: center; color: white; font-size: 9px; font-weight: bold;">40</div>
+                                            <div style="width: 25px; height: 20px; background-color: #ccc; text-align: center; color: white; font-size: 9px; font-weight: bold;">20</div>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-around; font-size: 9px; font-weight: bold;">
+                                            <span>Sambalpur</span><span>Angul</span><span>Kalahandi</span><span>Koraput</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div style="border: 2px solid #333; border-radius: 6px; padding: 12px; height: 200px; display: flex; flex-direction: column; justify-content: space-between;">
+                                        <div style="font-weight: bold; font-size: 12px; border-bottom: 1px solid #999;">Inspection Completion Trend</div>
+                                        <!-- Wireframe line chart -->
+                                        <div style="position: relative; height: 120px; border-left: 2px solid #333; border-bottom: 2px solid #333;">
+                                            <!-- SVG wireframe line -->
+                                            <svg style="position: absolute; width: 100%; height: 100%;">
+                                                <polyline points="20,100 80,60 140,40 200,10" style="fill:none;stroke:#333;stroke-width:3" />
+                                                <circle cx="20" cy="100" r="4" fill="black" />
+                                                <circle cx="80" cy="60" r="4" fill="black" />
+                                                <circle cx="140" cy="40" r="4" fill="black" />
+                                                <circle cx="20" cy="10" r="4" fill="black" />
+                                            </svg>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; font-size: 9px; font-weight: bold;">
+                                            <span>Q1</span><span>Q2</span><span>Q3</span><span>Q4 (Planned)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Block: Screen 3 Dashboard Drill-Down -->
+                        <div class="col-4">
+                            <div class="right-sidebar" style="width: 100%; border: 2px solid #333333; border-radius: 6px; box-shadow: 2px 2px 0 #333;">
+                                <div class="drilldown-title">
+                                    <span>🧭 NAVIGATION DRILL-DOWN</span>
+                                    <span style="font-size: 10px; color: #666;">Hierarchy Drill</span>
+                                </div>
+                                
+                                <div style="margin-bottom: 15px;">
+                                    <h4 style="font-size: 11px; font-weight: bold; margin-bottom: 8px; border-bottom: 1px dashed #bbb;">Safety & Inspection Drill-down:</h4>
+                                    <div class="drilldown-flow">
+                                        <div class="drilldown-step" onclick="showScreen('screen-state-dashboard')">
+                                            <span>State Management Portal</span><span>Odisha</span>
+                                        </div>
+                                        <div class="drilldown-arrow">▼</div>
+                                        <div class="drilldown-step" onclick="drillToCircle('Northern Circle')">
+                                            <span>Circle Level view</span><span>Northern Circle</span>
+                                        </div>
+                                        <div class="drilldown-arrow">▼</div>
+                                        <div class="drilldown-step" onclick="showScreen('screen-dam-registry')">
+                                            <span>Division Office view</span><span>Sambalpur Division</span>
+                                        </div>
+                                        <div class="drilldown-arrow">▼</div>
+                                        <div class="drilldown-step" onclick="drillToDam('D00123')">
+                                            <span>Dam Profile view</span><span>Hirakud Dam</span>
+                                        </div>
+                                        <div class="drilldown-arrow">▼</div>
+                                        <div class="drilldown-step" onclick="drillToInspection('INSP-2025-001')">
+                                            <span>Inspection Review</span><span>INSP-2025-001</span>
+                                        </div>
+                                        <div class="drilldown-arrow">▼</div>
+                                        <div class="drilldown-step" onclick="drillToObservation('OBS-2025-101')">
+                                            <span>Observation Details</span><span>OBS-2025-101</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 style="font-size: 11px; font-weight: bold; margin-bottom: 8px; border-bottom: 1px dashed #bbb;">Works & Vendor Drill-down:</h4>
+                                    <div class="drilldown-flow">
+                                        <div class="drilldown-step" onclick="showScreen('screen-state-dashboard')">
+                                            <span>State Water Resources</span><span>State Wing</span>
+                                        </div>
+                                        <div class="drilldown-arrow">▼</div>
+                                        <div class="drilldown-step" onclick="showScreen('screen-work-management')">
+                                            <span>Division Work Register</span><span>Sambalpur Div</span>
+                                        </div>
+                                        <div class="drilldown-arrow">▼</div>
+                                        <div class="drilldown-step" onclick="drillToWork('WRK-2025-401')">
+                                            <span>Contract Profile</span><span>WRK-2025-401</span>
+                                        </div>
+                                        <div class="drilldown-arrow">▼</div>
+                                        <div class="drilldown-step" onclick="showScreen('screen-vendor-management')">
+                                            <span>Contractor Performance</span><span>Utkal Infra</span>
+                                        </div>
+                                        <div class="drilldown-arrow">▼</div>
+                                        <div class="drilldown-step" onclick="drillToVerification('VER-2025-801')">
+                                            <span>Milestone Progress verification</span><span>VER-2025-801</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. DAM REGISTRY -->
+                <div id="screen-dam-registry" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">DAM REGISTRY</h2>
+                            <p class="section-subtitle">Comprehensive master list of all state water reservoirs and check-dams</p>
+                        </div>
+                        <button class="wireframe-btn primary" onclick="alert('Add Dam profile form loaded in Master workspace.')">
+                            ➕ Add New Dam
+                        </button>
+                    </div>
+
+                    <!-- Search & Advanced Filter Section -->
+                    <div class="filter-panel">
+                        <div class="filter-grid">
+                            <div class="form-group">
+                                <label>Search keyword</label>
+                                <input type="text" id="search-dam-input" class="wireframe-input" placeholder="Name, ID, River..." onkeyup="filterDams()">
+                            </div>
+                            <div class="form-group">
+                                <label>District</label>
+                                <select id="filter-district" class="wireframe-select" style="width:100%;" onchange="filterDams()">
+                                    <option value="">All Districts</option>
+                                    <option value="Sambalpur">Sambalpur</option>
+                                    <option value="Angul">Angul</option>
+                                    <option value="Kalahandi">Kalahandi</option>
+                                    <option value="Malkangiri">Malkangiri</option>
+                                    <option value="Nabarangpur">Nabarangpur</option>
+                                    <option value="Koraput">Koraput</option>
+                                    <option value="Dhenkanal">Dhenkanal</option>
+                                    <option value="Bargarh">Bargarh</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Circle Jurisdiction</label>
+                                <select id="filter-circle" class="wireframe-select" style="width:100%;" onchange="filterDams()">
+                                    <option value="">All Circles</option>
+                                    <option value="Northern Circle">Northern Circle</option>
+                                    <option value="Central Circle">Central Circle</option>
+                                    <option value="Western Circle">Western Circle</option>
+                                    <option value="Southern Circle">Southern Circle</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Safety Classification</label>
+                                <select id="filter-classification" class="wireframe-select" style="width:100%;" onchange="filterDams()">
+                                    <option value="">All Risks</option>
+                                    <option value="High Risk">High Risk</option>
+                                    <option value="Medium Risk">Medium Risk</option>
+                                    <option value="Low Risk">Low Risk</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Safety Status</label>
+                                <select id="filter-status" class="wireframe-select" style="width:100%;" onchange="filterDams()">
+                                    <option value="">All Statuses</option>
+                                    <option value="RED">RED (Immediate)</option>
+                                    <option value="AMBER">AMBER (Attention)</option>
+                                    <option value="GREEN">GREEN (Normal)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filter-actions">
+                            <button class="wireframe-btn" onclick="resetDamFilters()">Reset Filters</button>
+                            <button class="wireframe-btn primary" onclick="filterDams()">Apply Search</button>
+                        </div>
+                    </div>
+
+                    <!-- Data Table -->
+                    <div class="table-container">
+                        <table class="wireframe-table">
+                            <thead>
+                                <tr>
+                                    <th>Dam ID</th>
+                                    <th>Dam Name</th>
+                                    <th>District</th>
+                                    <th>Circle</th>
+                                    <th>Division</th>
+                                    <th>Basin</th>
+                                    <th>River</th>
+                                    <th>Risk Class</th>
+                                    <th>Last Insp</th>
+                                    <th>Next Insp</th>
+                                    <th>Safety Status</th>
+                                    <th>Open Obs</th>
+                                    <th>Overdue Actions</th>
+                                    <th>Ongoing Works</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="registry-table-body">
+                                <!-- Filled by loadDamRegistry() -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination and export metadata -->
+                    <div class="pagination-bar">
+                        <span>Showing 1 to 8 of 8 entries</span>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="wireframe-btn" onclick="alert('Exporting registry records to CSV...')">📥 Export Excel</button>
+                            <button class="wireframe-btn" onclick="alert('Exporting registry reports to PDF...')">📄 Export PDF</button>
+                        </div>
+                        <div class="pagination-links">
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. DAM PROFILE -->
+                <div id="screen-dam-profile" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">DAM HEALTH PROFILE</h2>
+                            <p class="section-subtitle">
+                                <span id="profile-dam-name">Hirakud Dam</span> (<span id="profile-dam-id">D00123</span>) - 
+                                District: <span id="profile-dam-district" style="font-weight: bold;">Sambalpur</span> | 
+                                Circle: <span id="profile-dam-circle" style="font-weight: bold;">Northern Circle</span> | 
+                                Division: <span id="profile-dam-division" style="font-weight: bold;">Sambalpur Division</span>
+                            </p>
+                        </div>
+                        <span id="profile-dam-status" class="status-pill red">RED</span>
+                    </div>
+
+                    <!-- Summary Cards Block -->
+                    <div class="row">
+                        <div class="kpi-card">
+                            <div class="kpi-header"><span>LAST INSPECTION</span></div>
+                            <div class="kpi-value" id="prof-card-last-insp" style="font-size: 18px;">12 Apr 2025</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-header"><span>NEXT INSPECTION</span></div>
+                            <div class="kpi-value" id="prof-card-next-insp" style="font-size: 18px;">12 Oct 2025</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-header"><span>OPEN OBSERVATIONS</span></div>
+                            <div class="kpi-value" id="prof-card-open-obs">8</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-header"><span>OVERDUE ACTIONS</span></div>
+                            <div class="kpi-value" id="prof-card-overdue-act" style="color: #ff4d4d;">5</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-header"><span>ONGOING WORKS</span></div>
+                            <div class="kpi-value" id="prof-card-ongoing">3</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-header"><span>PHYSICAL PROGRESS</span></div>
+                            <div class="kpi-value" id="prof-card-progress">45%</div>
+                        </div>
+                    </div>
+
+                    <!-- Inner Navigation Tabs -->
+                    <div class="tab-container">
+                        <ul class="tab-headers">
+                            <li class="tab-header-item active" onclick="switchTab('prof-overview', this)">Overview</li>
+                            <li class="tab-header-item" onclick="switchTab('prof-engineering', this)">Engineering Details</li>
+                            <li class="tab-header-item" onclick="switchTab('prof-inspections', this)">Inspections</li>
+                            <li class="tab-header-item" onclick="switchTab('prof-observations', this)">Observations</li>
+                            <li class="tab-header-item" onclick="switchTab('prof-works', this)">Ongoing Works</li>
+                            <li class="tab-header-item" onclick="switchTab('prof-documents', this)">Documents</li>
+                            <li class="tab-header-item" onclick="switchTab('prof-history', this)">History</li>
+                        </ul>
+
+                        <div class="tab-panels">
+                            <!-- Overview Tab -->
+                            <div id="prof-overview" class="tab-panel active">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <table class="wireframe-table">
+                                            <tr>
+                                                <th style="width: 200px;">Structural Height</th>
+                                                <td id="prof-height">59 m</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Crest Length</th>
+                                                <td id="prof-length">4.8 km (Main Dam)</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Catchment Area</th>
+                                                <td id="prof-catchment">83,400 sq km</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Gross Storage Capacity</th>
+                                                <td id="prof-capacity">5,896 M cum</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Spillway Capacity</th>
+                                                <td id="prof-spillway">42,450 cumec</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Year Completed</th>
+                                                <td id="prof-completed">1957</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-4">
+                                        <!-- Photo placeholder -->
+                                        <div class="wireframe-photo-placeholder" style="height: 180px;">
+                                            <span>📷 Dam Elevation Drawing Overview</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Engineering Details -->
+                            <div id="prof-engineering" class="tab-panel">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4 style="font-size: 13px; font-weight: bold; border-bottom: 2px solid #333; margin-bottom: 8px;">Spillway Structure Parameters</h4>
+                                        <p style="font-size: 12px; line-height: 1.6;">Spillway consists of 64 gates, under-sluices, and concrete bucket dissipator. Total length of spillway is 914 meters. Crest gates are 15.24m x 6.1m radial gates.</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <h4 style="font-size: 13px; font-weight: bold; border-bottom: 2px solid #333; margin-bottom: 8px;">Geology & Foundation</h4>
+                                        <p style="font-size: 12px; line-height: 1.6;">Founded on granite, granitic gneisses, and schists. Consolidated foundation grouting with 30m grout curtain wall at upstream side heel.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Inspections tab -->
+                            <div id="prof-inspections" class="tab-panel">
+                                <div class="table-container">
+                                    <table class="wireframe-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Inspection ID</th>
+                                                <th>Type</th>
+                                                <th>Planned Date</th>
+                                                <th>Inspection Team</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="profile-inspections-body"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Observations tab -->
+                            <div id="prof-observations" class="tab-panel">
+                                <div class="table-container">
+                                    <table class="wireframe-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Observation ID</th>
+                                                <th>Category</th>
+                                                <th>Description</th>
+                                                <th>Severity</th>
+                                                <th>Target Date</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="profile-observations-body"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Works tab -->
+                            <div id="prof-works" class="tab-panel">
+                                <div class="table-container">
+                                    <table class="wireframe-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Work ID</th>
+                                                <th>Description</th>
+                                                <th>Contractor</th>
+                                                <th>Value</th>
+                                                <th>Physical Progress</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="profile-works-body"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Documents tab -->
+                            <div id="prof-documents" class="tab-panel">
+                                <div class="table-container">
+                                    <table class="wireframe-table">
+                                        <thead>
+                                            <tr>
+                                                <th>File Name</th>
+                                                <th>Type</th>
+                                                <th>Version</th>
+                                                <th>Uploaded By</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="profile-documents-body"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- History Tab -->
+                            <div id="prof-history" class="tab-panel">
+                                <div class="audit-timeline" id="profile-history-timeline"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. INSPECTION MANAGEMENT -->
+                <div id="screen-inspection-management" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">INSPECTION MANAGEMENT PANEL</h2>
+                            <p class="section-subtitle">Schedule, assign, track, and verify formal dam safety reviews</p>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="wireframe-btn primary" onclick="showScreen('screen-inspection-planning')">
+                                📅 Plan New Inspection
+                            </button>
+                            <button class="wireframe-btn" onclick="alert('Assigned team members notification batch sent.')">
+                                📣 Dispatch Team
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filters for inspections -->
+                    <div class="filter-panel" style="padding: 10px 15px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div style="display:flex; gap:15px; align-items:center; font-size:12px; font-weight:bold;">
+                                <span>Filter Type:</span>
+                                <label><input type="radio" name="flt-insp-type" checked /> All</label>
+                                <label><input type="radio" name="flt-insp-type" /> Pre-Monsoon</label>
+                                <label><input type="radio" name="flt-insp-type" /> Post-Monsoon</label>
+                                <label><input type="radio" name="flt-insp-type" /> Periodic/Annual</label>
+                                <label><input type="radio" name="flt-insp-type" /> Special/Emergency</label>
+                            </div>
+                            <div style="display:flex; gap:10px;">
+                                <input type="text" class="wireframe-input" placeholder="Search Dam Name..." style="width: 200px;">
+                                <button class="wireframe-btn">Filter</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="wireframe-table">
+                            <thead>
+                                <tr>
+                                    <th>Inspection ID</th>
+                                    <th>Dam</th>
+                                    <th>Inspection Type</th>
+                                    <th>Planned/Actual Date</th>
+                                    <th>Inspection Team</th>
+                                    <th>Responsible Officer</th>
+                                    <th>Status</th>
+                                    <th>Review Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inspection-table-body">
+                                <!-- Filled by loadInspectionManagement() -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 7. INSPECTION PLANNING (FORM) -->
+                <div id="screen-inspection-planning" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">PLAN & SCHEDULE SAFETY INSPECTION</h2>
+                            <p class="section-subtitle">Deploy official panels and committees for statutory checks</p>
+                        </div>
+                        <button class="wireframe-btn" onclick="showScreen('screen-inspection-management')">Cancel</button>
+                    </div>
+
+                    <!-- Workflow Indicator -->
+                    <div class="workflow-indicator-bar">
+                        <div class="workflow-node active">Planned</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node">Assigned</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node">In Progress</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node">Submitted</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node">Verified</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node">Approved</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node">Closed</div>
+                    </div>
+
+                    <div style="border: 2px solid #333333; border-radius: 6px; padding: 20px; box-shadow: 3px 3px 0px #333;">
+                        <form onsubmit="handleCreateInspection(event)">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="plan-dam-select">Select Dam (Registry Profile)</label>
+                                        <select id="plan-dam-select" class="wireframe-select" style="width: 100%;" required>
+                                            <option value="D00123">Hirakud Dam (D00123)</option>
+                                            <option value="D00124">Rengali Dam (D00124)</option>
+                                            <option value="D00126">Balimela Dam (D00126)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="plan-type-select">Inspection Type</label>
+                                        <select id="plan-type-select" class="wireframe-select" style="width: 100%;">
+                                            <option>Pre-Monsoon</option>
+                                            <option>Post-Monsoon</option>
+                                            <option>Periodic/Annual</option>
+                                            <option>Comprehensive</option>
+                                            <option>Special</option>
+                                            <option>Emergency</option>
+                                            <option>Event-Based</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="plan-date">Proposed Inspection Date</label>
+                                        <input type="date" id="plan-date" class="wireframe-input" required>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="plan-team">Nominated Panel / Team members</label>
+                                        <input type="text" id="plan-team" class="wireframe-input" placeholder="e.g. Dr. S. Mohapatra, J. Das" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="plan-officer">Responsible Monitoring Officer</label>
+                                        <input type="text" id="plan-officer" class="wireframe-input" placeholder="e.g. Executive Engineer, Sambalpur" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="plan-remarks">Special Instructions / Remarks</label>
+                                        <textarea id="plan-remarks" class="wireframe-input" style="height: 60px;" placeholder="Identify specific seepage patterns..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 15px; border: 1px dashed #999; padding: 10px; border-radius: 4px;">
+                                <h4 style="font-size:12px; margin-bottom:8px;">Standard Planned Checklist Targets:</h4>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label><input type="checkbox" checked disabled /> Visual masonry crack inspections</label><br>
+                                        <label><input type="checkbox" checked disabled /> Drainage gallery drainage measurements</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <label><input type="checkbox" checked disabled /> Spillway gate motor load tests</label><br>
+                                        <label><input type="checkbox" checked disabled /> Upstream protection rip-rap inspection</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px; border-top: 2px solid #333; padding-top:15px;">
+                                <button type="button" class="wireframe-btn" onclick="showScreen('screen-inspection-management')">Cancel</button>
+                                <button type="submit" class="wireframe-btn primary">Save & Dispatch Team</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 8. INSPECTION REVIEW -->
+                <div id="screen-inspection-review" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">FIELD INSPECTION REVIEW</h2>
+                            <p class="section-subtitle">Verify evidence, field checklist inputs, and approve defect entries</p>
+                        </div>
+                        <button class="wireframe-btn" onclick="showScreen('screen-inspection-management')">Back</button>
+                    </div>
+
+                    <!-- Workflow Indicator -->
+                    <div class="workflow-indicator-bar" id="rev-workflow-indicator">
+                        <div class="workflow-node done">Planned</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node done">Assigned</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node done">In Progress</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node active">Submitted</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node">Verified</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node">Approved</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node">Closed</div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Left Side: Inspection Data & Photos -->
+                        <div class="col-8">
+                            <div style="border: 2px solid #333333; border-radius: 6px; padding: 15px; margin-bottom: 15px; box-shadow: 2px 2px 0 #333;">
+                                <h3 style="font-size: 13px; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 5px; margin-bottom: 10px;">
+                                    🧱 Dam & General Information
+                                </h3>
+                                <table class="wireframe-table">
+                                    <tr>
+                                        <th>Target Dam Name</th>
+                                        <td id="rev-dam-name">Hirakud Dam</td>
+                                        <th>Dam ID</th>
+                                        <td id="rev-dam-id">D00123</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Current Safety Status</th>
+                                        <td colspan="3"><span id="rev-dam-safety" class="status-pill red">RED</span></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div style="border: 2px solid #333333; border-radius: 6px; padding: 15px; margin-bottom: 15px; box-shadow: 2px 2px 0 #333;">
+                                <h3 style="font-size: 13px; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 5px; margin-bottom: 10px;">
+                                    📝 Completed Checklist Results & Observations
+                                </h3>
+                                <div id="rev-checklist-results"></div>
+                            </div>
+
+                            <div style="border: 2px solid #333333; border-radius: 6px; padding: 15px; margin-bottom: 15px; box-shadow: 2px 2px 0 #333;">
+                                <h3 style="font-size: 13px; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 5px; margin-bottom: 10px;">
+                                    🖼️ Evidence Files (Photographs & Geotags)
+                                </h3>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="wireframe-photo-placeholder">
+                                            <span>📷 Block 12 cracks.jpg</span>
+                                            <div style="font-size:8px; margin-top:4px;">Lat: 21.5721 / Lng: 83.8710</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="wireframe-photo-placeholder">
+                                            <span>📷 Seepage measurement.jpg</span>
+                                            <div style="font-size:8px; margin-top:4px;">Lat: 21.5723 / Lng: 83.8712</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="wireframe-photo-placeholder">
+                                            <span>📷 Spillway gate4 motor.jpg</span>
+                                            <div style="font-size:8px; margin-top:4px;">Lat: 21.5728 / Lng: 83.8715</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Side: Review Decisions Panel -->
+                        <div class="col-4">
+                            <div style="border: 3px solid #333333; border-radius: 6px; padding: 15px; background-color: #fcfcfc; box-shadow: 3px 3px 0 #333; height: 100%;">
+                                <h3 style="font-size: 13px; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 5px; margin-bottom: 15px;">
+                                    🧐 REVIEW & VERIFICATION
+                                </h3>
+
+                                <div class="form-group">
+                                    <label>Inspection ID Reference</label>
+                                    <div id="rev-insp-id" style="font-size:16px; font-weight:bold; margin-bottom:8px;">INSP-2025-001</div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Inspection Type</label>
+                                    <div id="rev-insp-type" style="font-weight:bold;">Pre-Monsoon</div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Submit Date</label>
+                                    <div id="rev-insp-date" style="font-weight:bold;">12 May 2025</div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Panel Head / Responsible officer</label>
+                                    <div id="rev-insp-team" style="font-size:11px; font-weight:bold;">Team A</div>
+                                    <div id="rev-insp-officer" style="font-size:11px; color:#555;">Executive Engineer</div>
+                                </div>
+
+                                <div class="form-group" style="border-top: 1px dashed #ccc; padding-top: 10px; margin-top: 10px;">
+                                    <label>Deficiencies Recommendations Summary</label>
+                                    <div id="rev-recommendations" style="font-size: 11px; background: #fff; padding: 8px; border: 1px solid #333; border-radius: 4px; font-style: italic;">
+                                        Grouting Block 12, check motor hoist
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="margin-top: 15px;">
+                                    <label for="rev-reviewer-remarks">Reviewer Feedback & Remarks</label>
+                                    <textarea id="rev-reviewer-remarks" class="wireframe-input" style="height: 80px;" placeholder="Enter comments here..."></textarea>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div style="display:flex; flex-direction:column; gap:8px; margin-top:20px;">
+                                    <button class="wireframe-btn primary" onclick="handleInspectionReviewSubmit('approve')" style="justify-content:center;">
+                                        ✅ Approve & Register Defect
+                                    </button>
+                                    <button class="wireframe-btn" onclick="handleInspectionReviewSubmit('return')" style="justify-content:center;">
+                                        ↩️ Return for Correction
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. OBSERVATION MANAGEMENT -->
+                <div id="screen-observation-management" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">DEFICIENCY & OBSERVATION REGISTER</h2>
+                            <p class="section-subtitle">Formal registry of all identified structural, mechanical and instrumentation observations</p>
+                        </div>
+                        <button class="wireframe-btn" onclick="showScreen('screen-corrective-actions')">
+                            🔧 View Corrective Actions
+                        </button>
+                    </div>
+
+                    <!-- Severity Filters -->
+                    <div class="filter-panel" style="padding: 10px 15px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div style="display:flex; gap:10px; align-items:center; font-size:12px; font-weight:bold;">
+                                <span>Severity Level:</span>
+                                <button class="wireframe-btn" onclick="filterObservations('All')">All</button>
+                                <button class="wireframe-btn" onclick="filterObservations('Critical')" style="color:#ff4d4d; border-color:#ff4d4d;">🚨 Critical</button>
+                                <button class="wireframe-btn" onclick="filterObservations('High')" style="color:#ffb84d;">⚠️ High</button>
+                                <button class="wireframe-btn" onclick="filterObservations('Medium')">Medium</button>
+                                <button class="wireframe-btn" onclick="filterObservations('Low')">Low</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="wireframe-table">
+                            <thead>
+                                <tr>
+                                    <th>Observation ID</th>
+                                    <th>Dam</th>
+                                    <th>Inspection ID</th>
+                                    <th>Category</th>
+                                    <th>Description</th>
+                                    <th>Severity</th>
+                                    <th>Responsible Authority</th>
+                                    <th>Target Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="observation-table-body">
+                                <!-- Filled by loadObservationManagement() -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 10. OBSERVATION DETAIL -->
+                <div id="screen-observation-detail" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">OBSERVATION DETAILS & ASSIGNMENT</h2>
+                            <p class="section-subtitle">Individual safety defect log details with evidentiary history</p>
+                        </div>
+                        <button class="wireframe-btn" onclick="showScreen('screen-observation-management')">Back</button>
+                    </div>
+
+                    <!-- Workflow bar -->
+                    <div class="workflow-indicator-bar" id="obs-workflow-bar">
+                        <div class="workflow-node done">Identified</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node active">Assigned</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node">Action Initiated</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node">Resolved</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node">Verified</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node">Closed</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-8">
+                            <div style="border: 2px solid #333333; border-radius: 6px; padding: 15px; margin-bottom: 15px; box-shadow: 2px 2px 0 #333;">
+                                <h3 style="font-size: 13px; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 5px; margin-bottom: 10px;">
+                                    📝 Safety Defect Details
+                                </h3>
+                                <table class="wireframe-table">
+                                    <tr>
+                                        <th>Observation ID</th>
+                                        <td id="obs-det-id">OBS-2025-101</td>
+                                        <th>Dam Name</th>
+                                        <td id="obs-det-dam">Hirakud Dam</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Origin Inspection</th>
+                                        <td id="obs-det-insp">INSP-2025-001</td>
+                                        <th>Defect Category</th>
+                                        <td id="obs-det-category">Structural Repairs</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Severity Level</th>
+                                        <td><span id="obs-det-severity" class="status-pill red">Critical</span></td>
+                                        <th>GPS Location</th>
+                                        <td id="obs-det-location">21.5721 N, 83.8710 E</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Description</th>
+                                        <td colspan="3" id="obs-det-desc" style="font-weight: bold;">
+                                            Major structural cracking along concrete face of block 12, length 4.2m.
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div style="border: 2px solid #333333; border-radius: 6px; padding: 15px; margin-bottom: 15px; box-shadow: 2px 2px 0 #333;">
+                                <h3 style="font-size: 13px; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 5px; margin-bottom: 10px;">
+                                    🖼️ Uploaded Site Photographs
+                                </h3>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="wireframe-photo-placeholder" style="height: 160px;">
+                                            <span>📷 defect_photo_1.jpg</span>
+                                            <div style="font-size:9px; margin-top:5px; color:#555;">Shows deep concrete cracking under gallery block</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="wireframe-photo-placeholder" style="height: 160px;">
+                                            <span>📷 defect_photo_2.jpg</span>
+                                            <div style="font-size:9px; margin-top:5px; color:#555;">Closer zoom of crack width measurement (8.2mm)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div style="border: 3px solid #333333; border-radius: 6px; padding: 15px; background-color: #fbfbfb; box-shadow: 3px 3px 0 #333; height: 100%;">
+                                <h3 style="font-size: 13px; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 5px; margin-bottom: 15px;">
+                                    🔧 ALLOCATE REMEDIAL TASK
+                                </h3>
+                                <div class="form-group">
+                                    <label>Responsible Authority</label>
+                                    <div id="obs-det-authority" style="font-weight:bold;">Executive Engineer</div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Assigned Engineer Officer</label>
+                                    <div id="obs-det-officer" style="font-weight:bold;">S. K. Patnaik, EE</div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Target Resolution Date</label>
+                                    <div id="obs-det-target" style="font-weight:bold; color:#ff4d4d;">30 Jun 2025</div>
+                                </div>
+
+                                <div style="margin-top: 20px; border-top: 1px dashed #ccc; padding-top: 15px;">
+                                    <button class="wireframe-btn primary" onclick="handleAssignCorrectiveAction()" style="width: 100%; justify-content: center; margin-bottom: 10px;">
+                                        🛠️ Allocate Work / Grout Contract
+                                    </button>
+                                    <button class="wireframe-btn" onclick="alert('Deficiency escalated to Chief Engineer Safety committee.')" style="width: 100%; justify-content: center;">
+                                        ⚠️ Escalate Safety Alert
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 11. CORRECTIVE ACTION MANAGEMENT -->
+                <div id="screen-corrective-actions" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">CORRECTIVE ACTIONS & TRACKING</h2>
+                            <p class="section-subtitle">Monitor the deployment, progress and verification status of all corrective tasks</p>
+                        </div>
+                        <button class="wireframe-btn primary" onclick="alert('Creating new corrective task form in action workspace.')">
+                            ➕ Create Corrective Task
+                        </button>
+                    </div>
+
+                    <!-- Overdue Actions Highlight Panel -->
+                    <div style="border: 2px dashed #ff4d4d; border-radius: 6px; padding: 12px; background-color: #fff8f8; margin-bottom: 15px;">
+                        <h4 style="font-size:12px; font-weight:bold; color:#cc0000; margin-bottom:6px;">⏰ Overdue Actions Alarm Panel (Immediate Resolution Needed)</h4>
+                        <ul style="font-size:11px; margin-left:15px; font-weight:bold;">
+                            <li>ACT-2025-202: Piezometer anomaly check at Rengali Dam - Target 20 Jun 2025 - **OVERDUE**</li>
+                        </ul>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="wireframe-table">
+                            <thead>
+                                <tr>
+                                    <th>Action ID</th>
+                                    <th>Observation Ref</th>
+                                    <th>Dam</th>
+                                    <th>Responsible Authority</th>
+                                    <th>Assigned Officer</th>
+                                    <th>Target Date</th>
+                                    <th>Priority</th>
+                                    <th>Progress</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="action-table-body">
+                                <!-- Filled by loadCorrectiveActions() -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 12. WORK MANAGEMENT -->
+                <div id="screen-work-management" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">CONSTRUCTION & REHABILITATION WORK</h2>
+                            <p class="section-subtitle">Track structural, hydromechanical, and electrical rehabilitation works</p>
+                        </div>
+                        <button class="wireframe-btn primary" onclick="alert('Opening contract registration form.')">
+                            ➕ Register New Work Order
+                        </button>
+                    </div>
+
+                    <!-- Category filter tabs -->
+                    <div class="filter-panel" style="padding: 10px 15px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div style="display:flex; gap:10px; align-items:center; font-size:12px; font-weight:bold;">
+                                <span>Work Category:</span>
+                                <button class="wireframe-btn" onclick="filterWorks('All')">All</button>
+                                <button class="wireframe-btn" onclick="filterWorks('Structural Repairs')">Structural Repairs</button>
+                                <button class="wireframe-btn" onclick="filterWorks('Hydromechanical')">Hydromechanical</button>
+                                <button class="wireframe-btn" onclick="filterWorks('Instrumentation')">Instrumentation</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="wireframe-table">
+                            <thead>
+                                <tr>
+                                    <th>Work ID</th>
+                                    <th>Dam</th>
+                                    <th>Work Description</th>
+                                    <th>Category</th>
+                                    <th>Division</th>
+                                    <th>Vendor</th>
+                                    <th>Contract Value</th>
+                                    <th>Start Date</th>
+                                    <th>Completion Date</th>
+                                    <th>Physical Progress</th>
+                                    <th>Financial Progress</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="work-table-body">
+                                <!-- Filled by loadWorkManagement() -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 13. WORK PROFILE -->
+                <div id="screen-work-profile" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">WORK & REHABILITATION DETAIL</h2>
+                            <p class="section-subtitle">
+                                Work ID: <span id="work-prof-id">WRK-2025-401</span> | 
+                                Dam: <strong id="work-prof-dam">Hirakud Dam</strong> | 
+                                Contractor: <span id="work-prof-vendor" style="font-weight: bold;">M/s Utkal Infrastructure Ltd.</span>
+                            </p>
+                        </div>
+                        <span id="work-prof-status" class="status-pill green">In Progress</span>
+                    </div>
+
+                    <!-- Work Overview metadata -->
+                    <div style="border: 2px solid #333333; border-radius: 6px; padding: 15px; margin-bottom: 15px; box-shadow: 2px 2px 0 #333;">
+                        <div class="row">
+                            <div class="col-8">
+                                <h3 style="font-size: 13px; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 5px; margin-bottom: 10px;">
+                                    📝 Contract Description
+                                </h3>
+                                <p id="work-prof-desc" style="font-size:12px; font-weight:bold; line-height:1.5;">
+                                    Epoxy Grouting & Consolidation Grouting of Spillway Spill face Block 12
+                                </p>
+                                <table class="wireframe-table" style="margin-top: 10px;">
+                                    <tr>
+                                        <th>Contract Value</th>
+                                        <td id="work-prof-value">Rs. 42.5 Lakhs</td>
+                                        <th>Start Date</th>
+                                        <td id="work-prof-start">01 May 2025</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Completion Date</th>
+                                        <td id="work-prof-completion">15 Jul 2025</td>
+                                        <th>Approved Cost</th>
+                                        <td>Rs. 45.0 Lakhs</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-4">
+                                <h3 style="font-size: 13px; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 5px; margin-bottom: 10px;">
+                                    📊 Progress Summary
+                                </h3>
+                                <div class="form-group">
+                                    <label>Overall Physical Progress</label>
+                                    <div style="display:flex; align-items:center; gap:10px;">
+                                        <div class="progress-bar-wireframe" style="width: 150px;">
+                                            <div class="progress-fill-wireframe" id="work-prof-phys-bar" style="width: 45%;"></div>
+                                        </div>
+                                        <span id="work-prof-phys" style="font-weight:bold;">45%</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Overall Financial Progress</label>
+                                    <div style="display:flex; align-items:center; gap:10px;">
+                                        <div class="progress-bar-wireframe" style="width: 150px;">
+                                            <div class="progress-fill-wireframe" id="work-prof-fin-bar" style="width: 38%;"></div>
+                                        </div>
+                                        <span id="work-prof-fin" style="font-weight:bold;">38%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabs inside Work profile -->
+                    <div class="tab-container">
+                        <ul class="tab-headers">
+                            <li class="tab-header-item active" onclick="switchTab('work-milestones', this)">Milestones</li>
+                            <li class="tab-header-item" onclick="switchTab('work-progress-evidence', this)">Progress Evidence</li>
+                            <li class="tab-header-item" onclick="switchTab('work-financials', this)">Financial / Invoices</li>
+                        </ul>
+
+                        <div class="tab-panels">
+                            <!-- Milestones tab -->
+                            <div id="work-milestones" class="tab-panel active">
+                                <div class="table-container">
+                                    <table class="wireframe-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Milestone Milestone Activity</th>
+                                                <th>Progress Weight</th>
+                                                <th>Completion Status</th>
+                                                <th>Verification Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="work-milestones-body"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Progress Evidence tab -->
+                            <div id="work-progress-evidence" class="tab-panel">
+                                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                                    <h4 style="font-size:12px; font-weight:bold;">Submitted Site Photographs & GPS Coordinates</h4>
+                                    <button class="wireframe-btn primary" onclick="showScreen('screen-vendor-verification')">
+                                        🔍 Verify Vendor Submissions
+                                    </button>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="wireframe-photo-placeholder">
+                                            <span>📷 Surface preparation view.jpg</span>
+                                            <div style="font-size:8px; margin-top:3px;">GPS: 21.5721 N / 83.8710 E</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="wireframe-photo-placeholder">
+                                            <span>📷 Nipple installation grid.jpg</span>
+                                            <div style="font-size:8px; margin-top:3px;">GPS: 21.5722 N / 83.8711 E</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Financials tab -->
+                            <div id="work-financials" class="tab-panel">
+                                <div class="table-container">
+                                    <table class="wireframe-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Bill Number</th>
+                                                <th>Claim Amount</th>
+                                                <th>Submitted Date</th>
+                                                <th>Disbursement Status</th>
+                                                <th>Approved By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>BILL/2025/12</td>
+                                                <td>Rs. 12.5 Lakhs</td>
+                                                <td>20 May 2025</td>
+                                                <td><span class="status-pill green">Disbursed</span></td>
+                                                <td>S. K. Patnaik, EE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>BILL/2025/19</td>
+                                                <td>Rs. 15.0 Lakhs</td>
+                                                <td>10 Jun 2025</td>
+                                                <td><span class="status-pill amber">Under Audit Verification</span></td>
+                                                <td>Pending</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 14. VENDOR MANAGEMENT -->
+                <div id="screen-vendor-management" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">VENDOR & CONTRACTOR REGISTER</h2>
+                            <p class="section-subtitle">Audit contractor capabilities, active works load and verification performance</p>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="wireframe-table">
+                            <thead>
+                                <tr>
+                                    <th>Contractor / Vendor Name</th>
+                                    <th>Active Works</th>
+                                    <th>Completed Works</th>
+                                    <th>Delayed Works</th>
+                                    <th>Register Status</th>
+                                    <th>Pending Submissions</th>
+                                    <th>Rejected Submissions</th>
+                                    <th>Performance Rating</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="vendor-table-body">
+                                <!-- Filled by loadVendorManagement() -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 15. VENDOR PROGRESS VERIFICATION -->
+                <div id="screen-vendor-verification" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">VENDOR PROGRESS VERIFICATION</h2>
+                            <p class="section-subtitle">Field evidence-based review for contractor milestone billing clearance</p>
+                        </div>
+                        <button class="wireframe-btn" onclick="showScreen('screen-vendor-management')">Back</button>
+                    </div>
+
+                    <!-- Workflow path -->
+                    <div class="workflow-indicator-bar" id="ver-workflow-bar">
+                        <div class="workflow-node done">Submitted</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node active">Under Verification</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node">Accepted / Partially Accepted</div>
+                        <div class="workflow-connector"></div>
+                        <div class="workflow-node">Returned / Rejected</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-8">
+                            <div style="border: 2px solid #333333; border-radius: 6px; padding: 15px; margin-bottom: 15px; box-shadow: 2px 2px 0 #333;">
+                                <h3 style="font-size: 13px; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 5px; margin-bottom: 10px;">
+                                    📝 Progress Submission Parameters
+                                </h3>
+                                <table class="wireframe-table">
+                                    <tr>
+                                        <th>Contract Reference</th>
+                                        <td id="ver-work" style="font-weight:bold;">Epoxy Grouting Block 12</td>
+                                        <th>Contractor</th>
+                                        <td id="ver-vendor">M/s Utkal Infrastructure Ltd.</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Target Milestone</th>
+                                        <td id="ver-milestone">Drilling & Nipples</td>
+                                        <th>Submitting Activity</th>
+                                        <td id="ver-activity">150 nipples fixed, depth verified by AE</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Claimed Progress %</th>
+                                        <td id="ver-claimed" style="font-weight:bold; color:green;">100% (30% total)</td>
+                                        <th>GPS Location Checked</th>
+                                        <td id="ver-gps">21.57212 N, 83.87105 E</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Field Measurements</th>
+                                        <td id="ver-measure">Nipple pitch 300mm c/c, hole depth 450mm</td>
+                                        <th>Verification Status</th>
+                                        <td><span id="ver-status" class="status-pill amber">Under Verification</span></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div style="border: 2px solid #333333; border-radius: 6px; padding: 15px; margin-bottom: 15px; box-shadow: 2px 2px 0 #333;">
+                                <h3 style="font-size: 13px; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 5px; margin-bottom: 10px;">
+                                    🖼️ Field Evidence & Photographic Proof
+                                </h3>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="wireframe-photo-placeholder" style="height: 160px;">
+                                            <span>📷 nipple_grid_photo.jpg</span>
+                                            <div style="font-size:9px; margin-top:5px; color:#555;">Conduit layout checked at spill face</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="wireframe-photo-placeholder" style="height: 160px;">
+                                            <span>📹 depth_measurement_video.mp4</span>
+                                            <div style="font-size:9px; margin-top:5px; color:#555;">Video recording of gauge probe depth calibration check</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div style="border: 3px solid #333333; border-radius: 6px; padding: 15px; background-color: #fbfbfb; box-shadow: 3px 3px 0 #333; height: 100%;">
+                                <h3 style="font-size: 13px; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 5px; margin-bottom: 15px;">
+                                    ✍️ VERIFICATION CHECK
+                                </h3>
+                                <div class="form-group">
+                                    <label>Claim ID</label>
+                                    <div id="ver-id" style="font-weight:bold; font-size:14px;">VER-2025-801</div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Site Inspector Remarks</label>
+                                    <div id="ver-remarks" style="font-size:11px; background:#fff; padding:6px; border:1px solid #333; border-radius:4px; font-style:italic;">
+                                        Drill logs verified, signatures attached.
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-top:15px;">
+                                    <label for="ver-review-remarks">Verification Comments</label>
+                                    <textarea id="ver-review-remarks" class="wireframe-input" style="height: 80px;" placeholder="Identify joint quality or deviations..."></textarea>
+                                </div>
+
+                                <div style="display:flex; flex-direction:column; gap:8px; margin-top:20px; border-top:1px dashed #ccc; padding-top:15px;">
+                                    <button class="wireframe-btn primary" onclick="handleProgressVerification('accept')" style="justify-content:center;">
+                                        ✅ Accept Milestone progress
+                                    </button>
+                                    <button class="wireframe-btn" onclick="handleProgressVerification('reject')" style="justify-content:center; color:#ff4d4d; border-color:#ff4d4d;">
+                                        ❌ Return / Reject Submission
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 16. DOCUMENT MANAGEMENT -->
+                <div id="screen-document-management" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">CENTRAL DOCUMENT SAFE</h2>
+                            <p class="section-subtitle">Publish, store and audit structural drawings, EAP sheets and safety audit logs</p>
+                        </div>
+                        <button class="wireframe-btn primary" onclick="alert('Upload document interface loaded.')">
+                            📤 Upload Document File
+                        </button>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="wireframe-table">
+                            <thead>
+                                <tr>
+                                    <th>Document File Name</th>
+                                    <th>Dam Association</th>
+                                    <th>Doc Type</th>
+                                    <th>Revision Version</th>
+                                    <th>Published By</th>
+                                    <th>Upload Date</th>
+                                    <th>Status</th>
+                                    <th>Get</th>
+                                </tr>
+                            </thead>
+                            <tbody id="document-table-body">
+                                <!-- Filled by loadDocumentManagement() -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 17. APPROVAL / TASK CENTER -->
+                <div id="screen-approval-center" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">APPROVAL & DECISION CENTER</h2>
+                            <p class="section-subtitle">Pending reviews, corrective action authorizations and document approvals inbox</p>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="wireframe-table">
+                            <thead>
+                                <tr>
+                                    <th>Assigned Task Item</th>
+                                    <th>Dam</th>
+                                    <th>Assigned Role/Officer</th>
+                                    <th>Priority</th>
+                                    <th>Due Date</th>
+                                    <th>Current Status</th>
+                                    <th>Action Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="approval-table-body">
+                                <!-- Filled by loadApprovalCenter() -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 18. ALERT CENTER -->
+                <div id="screen-alert-center" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">ALERT & NOTIFICATION CENTER</h2>
+                            <p class="section-subtitle">Realtime safety alarms, corrective action delays and milestone alert history</p>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="wireframe-table">
+                            <thead>
+                                <tr>
+                                    <th>Priority</th>
+                                    <th>Alert Type</th>
+                                    <th>Description Text</th>
+                                    <th>Timestamp</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="alert-table-body">
+                                <!-- Filled by loadAlertCenter() -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 19. GIS / MAP VIEW -->
+                <div id="screen-gis-map" class="screen-view" style="height: 100%;">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">GIS SAFETY SPATIAL MAP</h2>
+                            <p class="section-subtitle">Geographic risk tracking and status monitoring overview of Odisha state reservoirs</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <select class="wireframe-select"><option>All Basins</option></select>
+                            <select class="wireframe-select"><option>High Risk Classification</option></select>
+                            <button class="wireframe-btn">Apply Map Filters</button>
+                        </div>
+                    </div>
+
+                    <div class="row" style="flex-grow: 1; min-height: 0;">
+                        <!-- Left Map View -->
+                        <div class="col-8" style="height: 100%;">
+                            <div class="map-wireframe">
+                                <div class="map-background-lines"></div>
+                                
+                                <!-- Odisha Map Sketch Representation -->
+                                <svg class="map-svg" viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Outline representing Odisha -->
+                                    <path d="M 150,150 L 220,100 L 320,80 L 400,120 L 480,180 L 520,240 L 480,320 L 400,380 L 320,420 L 220,400 L 120,380 L 80,320 L 100,240 L 150,150 Z" 
+                                          fill="#ffffff" stroke="#333333" stroke-width="3" stroke-dasharray="8 4" />
+                                    <!-- River lines -->
+                                    <path d="M 150,150 Q 250,220 480,320" fill="none" stroke="#666666" stroke-width="2" stroke-dasharray="2 2" />
+                                    <text x="280" y="240" font-size="10" font-weight="bold" fill="#666">Mahanadi Basin</text>
+                                    
+                                    <path d="M 220,100 Q 320,180 520,240" fill="none" stroke="#666666" stroke-width="2" stroke-dasharray="2 2" />
+                                    <text x="340" y="160" font-size="10" font-weight="bold" fill="#666">Brahmani Basin</text>
+                                </svg>
+
+                                <!-- Geographically placed Dam Pins -->
+                                <!-- Hirakud Dam (RED) -->
+                                <div class="map-pin red" style="top: 38%; left: 35%;" onclick="selectMapMarker('D00123')">
+                                    <span style="font-size: 7px; color: white; font-weight: bold; position: absolute; top: -12px;">Hirakud</span>
+                                </div>
+
+                                <!-- Rengali Dam (AMBER) -->
+                                <div class="map-pin amber" style="top: 32%; left: 52%;" onclick="selectMapMarker('D00124')">
+                                    <span style="font-size: 7px; color: white; font-weight: bold; position: absolute; top: -12px;">Rengali</span>
+                                </div>
+
+                                <!-- Tikarpada Dam (GREEN) -->
+                                <div class="map-pin green" style="top: 45%; left: 48%;" onclick="selectMapMarker('D00125')">
+                                    <span style="font-size: 7px; color: white; font-weight: bold; position: absolute; top: -12px;">Tikarpada</span>
+                                </div>
+
+                                <!-- Balimela Dam (RED) -->
+                                <div class="map-pin red" style="top: 75%; left: 18%;" onclick="selectMapMarker('D00126')">
+                                    <span style="font-size: 7px; color: white; font-weight: bold; position: absolute; top: -12px;">Balimela</span>
+                                </div>
+
+                                <!-- Map Popup panel -->
+                                <div class="map-popup-panel" id="map-popup-panel">
+                                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #333; padding-bottom:4px; margin-bottom:8px;">
+                                        <strong id="map-popup-name">Hirakud Dam</strong>
+                                        <button onclick="closeMapPopup()" style="border:none; background:none; cursor:pointer; font-weight:bold;">[x]</button>
+                                    </div>
+                                    <div style="font-size:11px; display:flex; flex-direction:column; gap:4px;">
+                                        <div><strong>ID:</strong> <span id="map-popup-id">D00123</span></div>
+                                        <div><strong>Status:</strong> <span id="map-popup-status" class="status-pill red">RED</span></div>
+                                        <div><strong>Last Insp:</strong> <span id="map-popup-inspection">12 Apr 2025</span></div>
+                                        <div><strong>Open Obs:</strong> <span id="map-popup-observations">8</span></div>
+                                        <div><strong>Ongoing Works:</strong> <span id="map-popup-works">3</span></div>
+                                    </div>
+                                    <button class="wireframe-btn primary" onclick="showScreen('screen-dam-profile')" style="width:100%; margin-top:8px; justify-content:center; font-size:10px;">
+                                        View Dam Profile
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Filters Panel -->
+                        <div class="col-4" style="height: 100%;">
+                            <div style="border: 2px solid #333333; border-radius: 6px; padding: 15px; background-color: #ffffff; box-shadow: 2px 2px 0 #333; height:100%; overflow-y:auto;">
+                                <h3 style="font-size: 13px; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 5px; margin-bottom: 12px;">
+                                    🗺️ GIS SPATIAL FILTERS
+                                </h3>
+
+                                <div class="form-group">
+                                    <label>District Select</label>
+                                    <select class="wireframe-select" style="width: 100%;"><option>All Districts</option></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Circle Command</label>
+                                    <select class="wireframe-select" style="width: 100%;"><option>All Circle Commands</option></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Inspection status</label>
+                                    <select class="wireframe-select" style="width: 100%;"><option>Inspection Completed</option></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Construction Work progress</label>
+                                    <select class="wireframe-select" style="width: 100%;"><option>Any Work ongoing</option></select>
+                                </div>
+
+                                <div style="margin-top: 25px; border-top:1px dashed #ccc; padding-top:15px; font-size:11px;">
+                                    <strong>Map Guide:</strong>
+                                    <p style="margin-top:5px; color:#555;">Click on any marker pin to display the safety status summary overlay. You can drill down directly into the full dam safety files from the popup panel.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 20. REPORTS / MIS -->
+                <div id="screen-reports" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">REPORTS & MIS GENERATION</h2>
+                            <p class="section-subtitle">Generate physical progress sheets, financial audit ledgers and deficiency histories</p>
+                        </div>
+                    </div>
+
+                    <div class="filter-panel">
+                        <form onsubmit="handleGenerateReport(event)">
+                            <div class="filter-grid">
+                                <div class="form-group">
+                                    <label>Select Report category</label>
+                                    <select id="report-type-select" class="wireframe-select" style="width: 100%;">
+                                        <option>Dam-wise Safety Status Report</option>
+                                        <option>Inspection History Audit Sheet</option>
+                                        <option>Deficiency History Ledger</option>
+                                        <option>Ongoing Works Progress Sheet</option>
+                                        <option>Vendor Performance Summary</option>
+                                        <option>Financial Progress Ledger</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Reporting Timeframe</label>
+                                    <select id="report-time-select" class="wireframe-select" style="width: 100%;">
+                                        <option>Daily Log</option>
+                                        <option>Weekly Ledger</option>
+                                        <option>Monthly Audit</option>
+                                        <option>Quarterly MIS</option>
+                                        <option>Annual Safety Report</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Division</label>
+                                    <select class="wireframe-select" style="width: 100%;"><option>All Divisions</option></select>
+                                </div>
+                            </div>
+                            <div class="filter-actions">
+                                <button type="submit" class="wireframe-btn primary">Generate Report Preview</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Generated Data Preview -->
+                    <div style="border:2px solid #333; border-radius:6px; padding:15px; box-shadow: 2px 2px 0 #333;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #333; padding-bottom:5px; margin-bottom:10px;">
+                            <h3 style="font-size:13px; font-weight:bold;">📄 Report Preview data</h3>
+                            <div style="display:flex; gap:8px;">
+                                <button class="wireframe-btn" onclick="alert('Exporting PDF report file...')">Export PDF</button>
+                                <button class="wireframe-btn" onclick="alert('Exporting Excel ledger...')">Export Excel</button>
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="wireframe-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Report Item Name</th>
+                                        <th>Audit Sector</th>
+                                        <th>Resolution Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="report-results-body">
+                                    <tr>
+                                        <td colspan="4" style="text-align:center; font-style:italic; color:#666;">Use criteria filters above to generate report datasets.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 21. HISTORICAL RECORD / AUDIT -->
+                <div id="screen-historical-record" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">HISTORICAL RECORD & AUDIT TRAILS</h2>
+                            <p class="section-subtitle">Chronological ledger of inspections, status changes, and corrective updates</p>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="wireframe-table">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Authorized User</th>
+                                    <th>Action Performed</th>
+                                    <th>System State</th>
+                                    <th>Feedback / Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody id="audit-table-body">
+                                <!-- Filled by loadHistoricalAudit() -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 22. MASTER DATA -->
+                <div id="screen-master-data" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">MASTER CONFIGURATION DATA</h2>
+                            <p class="section-subtitle">Maintain circles, divisions, basins, work codes, and standard severity thresholds</p>
+                        </div>
+                    </div>
+
+                    <div class="row" id="master-data-list">
+                        <!-- Filled by loadMasterData() -->
+                    </div>
+                </div>
+
+                <!-- 23. USER / ROLE MANAGEMENT -->
+                <div id="screen-user-roles" class="screen-view">
+                    <div class="section-header">
+                        <div>
+                            <h2 class="section-title">USER PROFILE & ROLE CONFIGURATION</h2>
+                            <p class="section-subtitle">Control application feature visibility and jurisdictional access boundaries</p>
+                        </div>
+                        <button class="wireframe-btn primary" onclick="alert('Open User Registration panel.')">
+                            ➕ Register New User Profile
+                        </button>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="wireframe-table">
+                            <thead>
+                                <tr>
+                                    <th>User Profile Name</th>
+                                    <th>System Role Level</th>
+                                    <th>Department Unit</th>
+                                    <th>Circle / Division jurisdiction</th>
+                                    <th>Access Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="user-table-body">
+                                <!-- Filled by loadUserRoleManagement() -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- 24. FLOATING SCREEN DIRECTORY WIDGET (Debugging / Verification helper) -->
+    <div class="wireframe-debug-panel" id="debug-widget">
+        <div class="debug-header">
+            <span>Wireframe Controls</span>
+            <span class="debug-close" onclick="document.getElementById('debug-widget').style.display='none'">x</span>
+        </div>
+        <div style="font-size:10px; font-weight:bold; margin-bottom:8px; color:#555;">Jump directly to any layout mockup:</div>
+        
+        <div class="form-group" style="margin-bottom:8px;">
+            <select class="wireframe-select" style="width:100%; font-size:11px;" onchange="showScreen(this.value)">
+                <option value="screen-login">1. Login screen</option>
+                <option value="screen-state-dashboard" selected>2. State Dashboard</option>
+                <option value="screen-state-dashboard">3. Dashboard Drill-down (In Dashboard)</option>
+                <option value="screen-dam-registry">4. Dam Registry Table</option>
+                <option value="screen-dam-profile">5. Dam Profile (Tabs)</option>
+                <option value="screen-inspection-management">6. Inspection Registry</option>
+                <option value="screen-inspection-planning">7. Inspection Scheduling Form</option>
+                <option value="screen-inspection-review">8. Inspection Audit/Verification</option>
+                <option value="screen-observation-management">9. Defect Register</option>
+                <option value="screen-observation-detail">10. Defect Details Panel</option>
+                <option value="screen-corrective-actions">11. Corrective Actions Panel</option>
+                <option value="screen-work-management">12. Rehabilitation Work orders</option>
+                <option value="screen-work-profile">13. Contract Work Profile</option>
+                <option value="screen-vendor-management">14. Contractor Registry</option>
+                <option value="screen-vendor-verification">15. Progress Verification Sheet</option>
+                <option value="screen-document-management">16. Central Document Safe</option>
+                <option value="screen-approval-center">17. Approval Inbox Tasks</option>
+                <option value="screen-alert-center">18. Alarms & Notifications</option>
+                <option value="screen-gis-map">19. GIS Spatial Pin Map</option>
+                <option value="screen-reports">20. Reports/MIS generator</option>
+                <option value="screen-historical-record">21. Audit history trails</option>
+                <option value="screen-master-data">22. Configuration Masters</option>
+                <option value="screen-user-roles">23. Access control / Roles</option>
+            </select>
+        </div>
+        <div style="font-size:9px; color:#666666; text-align:center;">
+            This tool bypasses workflow gates for wireframe validation.
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="app.js"></script>
+</body>
+</html>
