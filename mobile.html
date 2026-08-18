@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Odisha Dam Safety — Mobile Field Operations Simulator</title>
+    <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css">
     <link rel="stylesheet" href="mobile-styles.css">
 </head>
 <body>
@@ -21,9 +22,9 @@
             <div class="phone-status-bar">
                 <span>10:30 AM</span>
                 <span id="mob-net-indicator" class="offline-indicator-header" style="display: none;">OFFLINE</span>
-                <div class="status-bar-right">
-                    <span>📶 5G</span>
-                    <span>🔋 92%</span>
+                <div class="status-bar-right" style="display:flex; align-items:center; gap:8px;">
+                    <span>5G</span>
+                    <i class="hgi-stroke hgi-battery-full" style="font-size:14px;"></i>
                 </div>
             </div>
 
@@ -32,7 +33,7 @@
                 
                 <!-- Connection Offline Alert banner -->
                 <div class="offline-banner" id="mob-offline-banner">
-                    <span>⚠️</span>
+                    <i class="hgi-stroke hgi-alert-02"></i>
                     <span>Offline Mode: Data saved locally in SQLite queue</span>
                 </div>
 
@@ -46,7 +47,9 @@
                 <header class="mobile-header">
                     <button class="mobile-header-btn" onclick="showMobileScreen('screen-mob-dashboard')">◀ Back</button>
                     <span class="mobile-header-title" id="mob-header-title">Field Dashboard</span>
-                    <button class="mobile-header-btn" onclick="showMobileScreen('screen-mob-sync')">🔄 Sync</button>
+                    <button class="mobile-header-btn" onclick="showMobileScreen('screen-mob-sync')" style="gap:4px;">
+                        <i class="hgi-stroke hgi-arrow-reload-horizontal"></i> Sync
+                    </button>
                 </header>
 
                 <!-- Scrollable Viewport Content -->
@@ -56,7 +59,7 @@
                     <div id="screen-mob-login" class="mobile-screen-view active">
                         <div style="text-align:center; padding: 24px 0 16px;">
                             <div style="width: 58px; height: 58px; border-radius: 50%; background: var(--gov-navy); color: #fff; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 4px 10px rgba(26,58,107,0.3);">
-                                🏛️
+                                <i class="hgi-stroke hgi-bank"></i>
                             </div>
                             <h3 style="font-size: 15px; font-weight: 800; color: var(--gov-navy);">ODISHA DAM SAFETY WING</h3>
                             <p style="font-size: 11px; font-weight: 600; color: var(--text-muted); margin-top: 2px;">Field Inspector & Contractor Mobile Suite</p>
@@ -72,13 +75,14 @@
                                     <label>Security PIN / Biometric</label>
                                     <input type="password" class="mobile-input" value="••••" required>
                                 </div>
-                                <button type="submit" class="mobile-btn primary" style="width:100%; margin-top:6px;">
-                                    🔓 AUTHORIZE & SIGN IN
+                                <button type="submit" class="mobile-btn primary" style="width:100%; margin-top:6px; gap:6px;">
+                                    <i class="hgi-stroke hgi-login-01"></i> AUTHORIZE & SIGN IN
                                 </button>
                             </form>
                         </div>
-                        <div style="text-align:center; font-size:11px; color:var(--text-muted); margin-top:12px;">
-                            <span>🔒 Encrypted local cache enabled for remote areas.</span>
+                        <div style="text-align:center; font-size:11px; color:var(--text-muted); margin-top:12px; display:flex; align-items:center; justify-content:center; gap:6px;">
+                            <i class="hgi-stroke hgi-circle-lock-01"></i>
+                            <span>Encrypted local cache enabled for remote areas.</span>
                         </div>
                     </div>
 
@@ -106,20 +110,20 @@
 
                         <!-- Engineer Summary (Visible to JE, AE, EE) -->
                         <div id="dash-insp-summary">
-                            <div style="font-size:11px; font-weight:800; color:var(--gov-navy); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.4px;">
-                                📋 Assigned Field Operations
+                            <div style="font-size:11px; font-weight:800; color:var(--gov-navy); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.4px; display:flex; align-items:center; gap:6px;">
+                                <i class="hgi-stroke hgi-task-daily-01"></i> Assigned Field Operations
                             </div>
                             <div class="row" style="margin-bottom:10px;">
                                 <div class="col-6">
                                     <div class="mobile-card interactive" style="text-align:center; border-left:3px solid var(--gov-red);" onclick="showMobileScreen('screen-mob-inspections')">
-                                        <div style="font-size:20px;">📅</div>
+                                        <div style="font-size:20px; color:var(--gov-red); margin-bottom:2px;"><i class="hgi-stroke hgi-calendar-03"></i></div>
                                         <div style="font-size:11px; font-weight:700; color:var(--text-main);">Today's Jobs</div>
                                         <div style="font-size:10px; color:var(--gov-red); font-weight:800; margin-top:2px;">1 Inspection</div>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mobile-card interactive" style="text-align:center; border-left:3px solid var(--gov-blue);" onclick="showMobileScreen('screen-mob-inspections')">
-                                        <div style="font-size:20px;">📋</div>
+                                        <div style="font-size:20px; color:var(--gov-navy); margin-bottom:2px;"><i class="hgi-stroke hgi-structure-01"></i></div>
                                         <div style="font-size:11px; font-weight:700; color:var(--text-main);">Scheduled</div>
                                         <div style="font-size:10px; color:var(--gov-navy); font-weight:800; margin-top:2px;">3 Total Dams</div>
                                     </div>
@@ -129,14 +133,14 @@
                             <div class="row" style="margin-bottom:12px;">
                                 <div class="col-6">
                                     <div class="mobile-card interactive" style="text-align:center; border-left:3px solid var(--gov-amber);" onclick="showMobileScreen('screen-mob-alerts')">
-                                        <div style="font-size:20px;">⚠️</div>
+                                        <div style="font-size:20px; color:var(--gov-amber); margin-bottom:2px;"><i class="hgi-stroke hgi-notification-01"></i></div>
                                         <div style="font-size:11px; font-weight:700;">Alarms</div>
                                         <div style="font-size:10px; color:var(--gov-amber); font-weight:800; margin-top:2px;">3 Active</div>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mobile-card interactive" style="text-align:center; border-left:3px solid var(--gov-green);" onclick="showMobileScreen('screen-mob-sync')">
-                                        <div style="font-size:20px;">🔄</div>
+                                        <div style="font-size:20px; color:var(--gov-green); margin-bottom:2px;"><i class="hgi-stroke hgi-arrow-reload-horizontal"></i></div>
                                         <div style="font-size:11px; font-weight:700;">Sync Center</div>
                                         <div style="font-size:10px; color:var(--gov-green); font-weight:800; margin-top:2px;">Check State</div>
                                     </div>
@@ -146,8 +150,8 @@
 
                         <!-- Vendor/Contractor Summary (Visible to Vendor only) -->
                         <div id="dash-vendor-summary" style="display: none;">
-                            <div style="font-size:11px; font-weight:800; color:var(--gov-navy); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.4px;">
-                                🏗️ Contractor Work Packages
+                            <div style="font-size:11px; font-weight:800; color:var(--gov-navy); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.4px; display:flex; align-items:center; gap:6px;">
+                                <i class="hgi-stroke hgi-crane"></i> Contractor Work Packages
                             </div>
                             <div class="mobile-card interactive" style="border-left:4px solid var(--gov-saffron);" onclick="showMobileScreen('screen-mob-work-progress')">
                                 <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -160,12 +164,12 @@
                         </div>
 
                         <!-- Action Buttons -->
-                        <button id="dash-start-insp-btn" class="mobile-btn primary" onclick="showMobileScreen('screen-mob-inspections')" style="width:100%; margin-top:4px;">
-                            🚀 START FIELD INSPECTION
+                        <button id="dash-start-insp-btn" class="mobile-btn primary" onclick="showMobileScreen('screen-mob-inspections')" style="width:100%; margin-top:4px; gap:6px;">
+                            <i class="hgi-stroke hgi-search-01"></i> START FIELD INSPECTION
                         </button>
 
-                        <button id="dash-log-work-btn" class="mobile-btn primary" onclick="showMobileScreen('screen-mob-work-progress')" style="width:100%; margin-top:4px; display:none;">
-                            📤 LOG MILESTONE PROGRESS
+                        <button id="dash-log-work-btn" class="mobile-btn primary" onclick="showMobileScreen('screen-mob-work-progress')" style="width:100%; margin-top:4px; display:none; gap:6px;">
+                            <i class="hgi-stroke hgi-upload-01"></i> LOG MILESTONE PROGRESS
                         </button>
                     </div>
 
@@ -220,8 +224,8 @@
                             </div>
                         </div>
 
-                        <button class="mobile-btn primary" onclick="handleStartInspection()" style="width:100%; margin-top:8px;">
-                            📝 EXECUTE FIELD SAFETY AUDIT
+                        <button class="mobile-btn primary" onclick="handleStartInspection()" style="width:100%; margin-top:8px; gap:6px;">
+                            <i class="hgi-stroke hgi-pencil-edit-02"></i> EXECUTE FIELD SAFETY AUDIT
                         </button>
                     </div>
 
@@ -246,8 +250,8 @@
                             </p>
                         </div>
 
-                        <button class="mobile-btn primary" onclick="showMobileScreen('screen-mob-checklist')" style="width:100%;">
-                            📋 PROCEED TO CHECKLIST
+                        <button class="mobile-btn primary" onclick="showMobileScreen('screen-mob-checklist')" style="width:100%; gap:6px;">
+                            <i class="hgi-stroke hgi-clipboard"></i> PROCEED TO CHECKLIST
                         </button>
                     </div>
 
@@ -255,8 +259,8 @@
                     <div id="screen-mob-checklist" class="mobile-screen-view">
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                             <span style="font-size:11px; font-weight:800; color:var(--gov-navy); text-transform:uppercase;">Statutory Checklist</span>
-                            <button class="mobile-btn secondary" onclick="showMobileScreen('screen-mob-record-observation')" style="padding:4px 8px; font-size:10px;">
-                                ➕ Record Defect
+                            <button class="mobile-btn secondary" onclick="showMobileScreen('screen-mob-record-observation')" style="padding:4px 8px; font-size:10px; gap:4px;">
+                                <i class="hgi-stroke hgi-add-01"></i> Record Defect
                             </button>
                         </div>
 
@@ -264,8 +268,8 @@
                             <!-- Populated dynamically by loadMobileChecklist() -->
                         </div>
 
-                        <button class="mobile-btn primary" onclick="showMobileScreen('screen-mob-review-submit')" style="width:100%; margin-top:14px;">
-                            🧐 REVIEW & SUBMIT AUDIT REPORT
+                        <button class="mobile-btn primary" onclick="showMobileScreen('screen-mob-review-submit')" style="width:100%; margin-top:14px; gap:6px;">
+                            <i class="hgi-stroke hgi-checkmark-circle-01"></i> REVIEW & SUBMIT AUDIT REPORT
                         </button>
                     </div>
 
@@ -293,8 +297,8 @@
                                 <div class="mobile-form-group">
                                     <label>Severity Level</label>
                                     <select id="mob-obs-sev" class="mobile-select" style="font-weight:700; color:var(--gov-red);">
-                                        <option value="Critical">🚨 Critical (Immediate 24-hr action)</option>
-                                        <option value="High">⚠️ High (Action within 7 days)</option>
+                                        <option value="Critical">Critical (Immediate 24-hr action)</option>
+                                        <option value="High">High (Action within 7 days)</option>
                                         <option value="Medium">Medium (Routine maintenance)</option>
                                         <option value="Low">Low (Advisory record)</option>
                                     </select>
@@ -305,11 +309,11 @@
                                 </div>
 
                                 <div style="display:flex; gap:8px; margin-top:12px;">
-                                    <button type="button" class="mobile-btn secondary" onclick="showMobileScreen('screen-mob-evidence')" style="flex:1;">
-                                        📷 Camera (GPS)
+                                    <button type="button" class="mobile-btn secondary" onclick="showMobileScreen('screen-mob-evidence')" style="flex:1; gap:4px;">
+                                        <i class="hgi-stroke hgi-camera-01"></i> Camera (GPS)
                                     </button>
-                                    <button type="submit" class="mobile-btn primary" style="flex:1;">
-                                        💾 Save Defect
+                                    <button type="submit" class="mobile-btn primary" style="flex:1; gap:4px;">
+                                        <i class="hgi-stroke hgi-floppy-disk"></i> Save Defect
                                     </button>
                                 </div>
                             </form>
@@ -320,7 +324,7 @@
                     <div id="screen-mob-evidence" class="mobile-screen-view">
                         <div class="mobile-card" style="text-align:center;">
                             <div style="width:100%; height:130px; background:linear-gradient(135deg, #1e293b, #0f172a); border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#ffffff;">
-                                <div style="font-size:32px;">📸</div>
+                                <div style="font-size:32px; margin-bottom:4px;"><i class="hgi-stroke hgi-camera-01"></i></div>
                                 <div style="font-size:11px; font-weight:700; margin-top:4px;">GPS Camera Sensor Active</div>
                                 <div style="font-size:9px; color:#94a3b8;">Lat: 21.57212° N | Long: 83.87105° E | Alt: 160m</div>
                             </div>
@@ -331,11 +335,11 @@
                         </div>
 
                         <div style="display:flex; gap:8px;">
-                            <button class="mobile-btn primary" onclick="handleAttachPhoto()" style="flex:1;">
-                                📸 CAPTURE PHOTO
+                            <button class="mobile-btn primary" onclick="handleAttachPhoto()" style="flex:1; gap:4px;">
+                                <i class="hgi-stroke hgi-camera-01"></i> CAPTURE PHOTO
                             </button>
-                            <button class="mobile-btn secondary" onclick="showMobileScreen('screen-mob-record-observation')" style="flex:1;">
-                                ✓ Done
+                            <button class="mobile-btn secondary" onclick="showMobileScreen('screen-mob-record-observation')" style="flex:1; gap:4px;">
+                                <i class="hgi-stroke hgi-checkmark-circle-01"></i> Done
                             </button>
                         </div>
                     </div>
@@ -373,8 +377,8 @@
                                     <textarea class="mobile-textarea" style="height:55px;" placeholder="Grout nozzle pressure tested at 5 bar, no leakage observed."></textarea>
                                 </div>
                                 
-                                <button type="submit" class="mobile-btn primary" style="width:100%; margin-top:8px;">
-                                    📤 SUBMIT PROGRESS FOR AUDIT
+                                <button type="submit" class="mobile-btn primary" style="width:100%; margin-top:8px; gap:6px;">
+                                    <i class="hgi-stroke hgi-upload-01"></i> SUBMIT PROGRESS FOR AUDIT
                                 </button>
                             </form>
                         </div>
@@ -400,11 +404,11 @@
                         </div>
 
                         <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
-                            <button class="mobile-btn primary" onclick="handleMobileFinalSubmit()">
-                                💾 FINALIZE & QUEUE DRAFT
+                            <button class="mobile-btn primary" onclick="handleMobileFinalSubmit()" style="gap:6px;">
+                                <i class="hgi-stroke hgi-floppy-disk"></i> FINALIZE & QUEUE DRAFT
                             </button>
                             <button class="mobile-btn secondary" onclick="showMobileScreen('screen-mob-checklist')">
-                                ↩ Back to Checklist
+                                ◀ Back to Checklist
                             </button>
                         </div>
                     </div>
@@ -412,7 +416,7 @@
                     <!-- SCREEN 11: SYNC CENTER -->
                     <div id="screen-mob-sync" class="mobile-screen-view">
                         <div class="mobile-card" style="text-align:center; padding:16px;">
-                            <div style="font-size:32px;">🔄</div>
+                            <div style="font-size:32px; color:var(--gov-navy); margin-bottom:4px;"><i class="hgi-stroke hgi-arrow-reload-horizontal"></i></div>
                             <h4 style="font-size:13px; font-weight:800; color:var(--gov-navy); margin-top:4px;">State Data Gateway Sync</h4>
                             <div style="font-size:11px; font-weight:700; margin-top:2px;" id="sync-connection-text">Connected (Online)</div>
                         </div>
@@ -435,28 +439,28 @@
                             </div>
                         </div>
 
-                        <button class="mobile-btn primary" onclick="triggerSyncNow()" style="width:100%; margin-top:6px;">
-                            🚀 PUSH DATA TO CLOUD
+                        <button class="mobile-btn primary" onclick="triggerSyncNow()" style="width:100%; margin-top:6px; gap:6px;">
+                            <i class="hgi-stroke hgi-cloud-upload"></i> PUSH DATA TO CLOUD
                         </button>
                     </div>
 
                     <!-- SCREEN 12: ALERTS -->
                     <div id="screen-mob-alerts" class="mobile-screen-view">
-                        <div style="font-size:11px; font-weight:800; color:var(--gov-navy); margin-bottom:8px; text-transform:uppercase;">
-                            🔔 Field Alarms & Compliance
+                        <div style="font-size:11px; font-weight:800; color:var(--gov-navy); margin-bottom:8px; text-transform:uppercase; display:flex; align-items:center; gap:6px;">
+                            <i class="hgi-stroke hgi-notification-01"></i> Field Alarms & Compliance
                         </div>
                         
                         <div class="mobile-card" style="border-left:4px solid var(--gov-red);">
-                            <div style="display:flex; justify-content:space-between; font-weight:800; font-size:10px; color:var(--gov-red);">
-                                <span>🚨 CRITICAL ALARM</span>
+                            <div style="display:flex; justify-content:space-between; font-weight:800; font-size:10px; color:var(--gov-red); align-items:center;">
+                                <span style="display:flex; align-items:center; gap:4px;"><i class="hgi-stroke hgi-alert-circle"></i> CRITICAL ALARM</span>
                                 <span>Today</span>
                             </div>
                             <div style="font-size:11px; font-weight:700; margin-top:4px;">Hirakud spill face cracks (OBS-2025-101) requires immediate epoxy seal.</div>
                         </div>
 
                         <div class="mobile-card" style="border-left:4px solid var(--gov-amber);">
-                            <div style="display:flex; justify-content:space-between; font-weight:800; font-size:10px; color:var(--gov-amber);">
-                                <span>📅 STATUTORY DUE</span>
+                            <div style="display:flex; justify-content:space-between; font-weight:800; font-size:10px; color:var(--gov-amber); align-items:center;">
+                                <span style="display:flex; align-items:center; gap:4px;"><i class="hgi-stroke hgi-calendar-03"></i> STATUTORY DUE</span>
                                 <span>22 Aug</span>
                             </div>
                             <div style="font-size:11px; font-weight:700; margin-top:4px;">Pre-Monsoon Safety Inspection due for Rengali Dam.</div>
@@ -467,7 +471,7 @@
                     <div id="screen-mob-profile" class="mobile-screen-view">
                         <div class="mobile-card" style="text-align:center; padding:16px;">
                             <div style="width:54px; height:54px; border-radius:50%; background:var(--gov-navy); color:#fff; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; font-size:22px;">
-                                👤
+                                <i class="hgi-stroke hgi-user-account"></i>
                             </div>
                             <strong style="font-size:14px; font-weight:800;" id="mob-profile-name">G. C. Biswal</strong>
                             <div style="font-size:11px; color:var(--gov-navy); font-weight:600;" id="mob-profile-role">Junior Engineer (Civil)</div>
@@ -475,13 +479,19 @@
                         </div>
 
                         <div class="mobile-card" style="font-size:11px;">
-                            <div style="padding:8px 0; border-bottom:1px dashed var(--border-light); cursor:pointer;" onclick="alert('Jurisdiction: Northern Circle (Sambalpur)')">📍 Assigned Jurisdiction</div>
-                            <div style="padding:8px 0; border-bottom:1px dashed var(--border-light); cursor:pointer;" onclick="showMobileScreen('screen-mob-sync')">⚙️ Offline Sync Settings</div>
-                            <div style="padding:8px 0; cursor:pointer;" onclick="alert('Standard Operating Procedure (SOP) manual downloaded.')">❓ Field Safety Protocols</div>
+                            <div style="padding:8px 0; border-bottom:1px dashed var(--border-light); cursor:pointer; display:flex; align-items:center; gap:8px;" onclick="alert('Jurisdiction: Northern Circle (Sambalpur)')">
+                                <i class="hgi-stroke hgi-maps-location-01" style="color:var(--gov-navy);"></i> Assigned Jurisdiction
+                            </div>
+                            <div style="padding:8px 0; border-bottom:1px dashed var(--border-light); cursor:pointer; display:flex; align-items:center; gap:8px;" onclick="showMobileScreen('screen-mob-sync')">
+                                <i class="hgi-stroke hgi-settings-01" style="color:var(--gov-navy);"></i> Offline Sync Settings
+                            </div>
+                            <div style="padding:8px 0; cursor:pointer; display:flex; align-items:center; gap:8px;" onclick="alert('Standard Operating Procedure (SOP) manual downloaded.')">
+                                <i class="hgi-stroke hgi-help-circle" style="color:var(--gov-navy);"></i> Field Safety Protocols
+                            </div>
                         </div>
 
-                        <button class="mobile-btn danger" onclick="handleLogout()" style="width:100%; margin-top:10px;">
-                            🔓 SIGN OUT
+                        <button class="mobile-btn danger" onclick="handleLogout()" style="width:100%; margin-top:10px; gap:6px;">
+                            <i class="hgi-stroke hgi-logout-01"></i> SIGN OUT
                         </button>
                     </div>
 
@@ -490,23 +500,23 @@
                 <!-- Bottom Navigation Bar -->
                 <nav class="mobile-nav-bar">
                     <a class="mobile-nav-tab active" id="tab-home" onclick="showMobileScreen('screen-mob-dashboard')">
-                        <span class="mobile-nav-icon">🏠</span>
+                        <i class="hgi-stroke hgi-home-01 mobile-nav-icon"></i>
                         <span>Home</span>
                     </a>
                     <a class="mobile-nav-tab" id="tab-inspections" onclick="showMobileScreen('screen-mob-inspections')">
-                        <span class="mobile-nav-icon">📋</span>
+                        <i class="hgi-stroke hgi-clipboard mobile-nav-icon"></i>
                         <span>Jobs</span>
                     </a>
                     <a class="mobile-nav-tab" id="tab-works" onclick="showMobileScreen('screen-mob-work-progress')">
-                        <span class="mobile-nav-icon">🏗️</span>
+                        <i class="hgi-stroke hgi-crane mobile-nav-icon"></i>
                         <span>Works</span>
                     </a>
                     <a class="mobile-nav-tab" id="tab-alerts" onclick="showMobileScreen('screen-mob-alerts')">
-                        <span class="mobile-nav-icon">🔔</span>
+                        <i class="hgi-stroke hgi-notification-01 mobile-nav-icon"></i>
                         <span>Alarms</span>
                     </a>
                     <a class="mobile-nav-tab" id="tab-more" onclick="showMobileScreen('screen-mob-profile')">
-                        <span class="mobile-nav-icon">⚙️</span>
+                        <i class="hgi-stroke hgi-user-account mobile-nav-icon"></i>
                         <span>Account</span>
                         <span class="nav-badge" id="nav-sync-badge" style="display: none;">0</span>
                     </a>
@@ -517,13 +527,14 @@
 
         <!-- RIGHT SIDE: SIMULATOR CONTROL DASHBOARD -->
         <div class="simulator-controls">
-            <div class="controls-title">
-                <span>📱 Field App Simulator Controls</span>
+            <div class="controls-title" style="display:flex; align-items:center; gap:8px;">
+                <i class="hgi-stroke hgi-smart-phone-01"></i>
+                <span>Field App Simulator Controls</span>
             </div>
 
             <!-- Role Selector for Mobile App -->
             <div class="controls-section">
-                <h4>👤 Mobile User Profile & Role</h4>
+                <h4 style="display:flex; align-items:center; gap:6px;"><i class="hgi-stroke hgi-user-account"></i> Mobile User Profile & Role</h4>
                 <select id="sim-role-select" class="mobile-select" onchange="setMobileRole(this.value)">
                     <option value="Junior Engineer" selected>Junior Engineer (Field Inspector)</option>
                     <option value="Assistant Engineer">Assistant Engineer (Sub-Divisional Reviewer)</option>
@@ -537,7 +548,7 @@
 
             <!-- Network Toggle Simulator -->
             <div class="controls-section">
-                <h4>📡 Network Connectivity</h4>
+                <h4 style="display:flex; align-items:center; gap:6px;"><i class="hgi-stroke hgi-wifi-01"></i> Network Connectivity</h4>
                 <div class="mobile-form-group" style="margin-bottom:4px;">
                     <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:12px; font-weight:700;">
                         <input type="checkbox" id="sim-network-chk" checked onchange="setNetworkStatus(this.checked)">
@@ -551,23 +562,23 @@
 
             <!-- Quick Navigation & Hub links -->
             <div class="controls-section">
-                <h4>🔗 Navigation & Hub Actions</h4>
+                <h4 style="display:flex; align-items:center; gap:6px;"><i class="hgi-stroke hgi-link-01"></i> Navigation & Hub Actions</h4>
                 <div style="display:flex; flex-direction:column; gap:8px;">
-                    <a href="landing.html" class="mobile-btn secondary" style="text-align:center;">
-                        🏛️ Return to Portal Landing Hub
+                    <a href="landing.html" class="mobile-btn secondary" style="text-align:center; gap:6px;">
+                        <i class="hgi-stroke hgi-bank"></i> Return to Portal Landing Hub
                     </a>
-                    <a href="index.html" class="mobile-btn secondary" style="text-align:center;">
-                        🖥️ Open Central Web Portal
+                    <a href="index.html" class="mobile-btn secondary" style="text-align:center; gap:6px;">
+                        <i class="hgi-stroke hgi-laptop-programming"></i> Open Central Web Portal
                     </a>
-                    <button class="mobile-btn" onclick="location.reload()" style="background:#f1f5f9; color:var(--text-main); border:1px solid var(--border-color);">
-                        🔄 Reset Simulator Cache
+                    <button class="mobile-btn" onclick="location.reload()" style="background:#f1f5f9; color:var(--text-main); border:1px solid var(--border-color); gap:6px;">
+                        <i class="hgi-stroke hgi-arrow-reload-horizontal"></i> Reset Simulator Cache
                     </button>
                 </div>
             </div>
 
             <!-- Live Console Log Box -->
             <div class="controls-section" style="flex-grow:1; display:flex; flex-direction:column;">
-                <h4>📟 Live Telemetry & Audit Logs</h4>
+                <h4 style="display:flex; align-items:center; gap:6px;"><i class="hgi-stroke hgi-terminal"></i> Live Telemetry & Audit Logs</h4>
                 <div class="console-box" id="sim-console" style="flex-grow:1;">
                     <div class="console-line">Initializing Mobile Client simulator framework...</div>
                     <div class="console-line">Ready. Waiting for field actions.</div>

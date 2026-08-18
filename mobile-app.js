@@ -26,10 +26,10 @@ const LOCAL_DB = {
 // Mobile Role Permissions Matrix
 const MOBILE_ROLE_PERMISSIONS = {
     roles: [
-        { id: "Junior Engineer", name: "Junior Engineer", title: "Field Inspector", icon: "👷" },
-        { id: "Assistant Engineer", name: "Assistant Engineer", title: "Sub-Divisional Officer", icon: "📋" },
-        { id: "Executive Engineer", name: "Executive Engineer", title: "Division In-Charge", icon: "🏛️" },
-        { id: "Vendor/Contractor", name: "Vendor/Contractor", title: "Executing Agency", icon: "🏗️" }
+        { id: "Junior Engineer", name: "Junior Engineer", title: "Field Inspector", icon: "hgi-search-01" },
+        { id: "Assistant Engineer", name: "Assistant Engineer", title: "Sub-Divisional Officer", icon: "hgi-clipboard" },
+        { id: "Executive Engineer", name: "Executive Engineer", title: "Division In-Charge", icon: "hgi-bank" },
+        { id: "Vendor/Contractor", name: "Vendor/Contractor", title: "Executing Agency", icon: "hgi-crane" }
     ],
 
     // Navigation tab access per role
@@ -351,11 +351,11 @@ function loadMobileInspections() {
             <div>
                 <strong style="font-size:13px; color:var(--gov-navy);">${insp.name}</strong>
                 <div style="font-size:11px; color:#475569; margin-top:2px;">${insp.type}</div>
-                <div style="font-size:10px; color:var(--gov-red); font-weight:700; margin-top:2px;">📅 Planned: ${insp.date}</div>
+                <div style="font-size:10px; color:var(--gov-red); font-weight:700; margin-top:2px; display:flex; align-items:center; gap:4px;"><i class="hgi-stroke hgi-calendar-03"></i> Planned: ${insp.date}</div>
             </div>
             <div style="text-align:right;">
                 <span class="status-pill ${insp.priority === 'High' ? 'red' : 'amber'}">${insp.priority}</span>
-                <div style="font-size:10px; color:#64748b; margin-top:4px;">📍 ${insp.location}</div>
+                <div style="font-size:10px; color:#64748b; margin-top:4px; display:flex; align-items:center; justify-content:flex-end; gap:3px;"><i class="hgi-stroke hgi-maps-location-01"></i> ${insp.location}</div>
             </div>
         </div>
     `).join('');
@@ -509,7 +509,7 @@ function handleAttachPhoto() {
     if (previewArea) {
         previewArea.innerHTML += `
             <div class="photo-geotag-card">
-                <div class="photo-geotag-img">📷</div>
+                <div class="photo-geotag-img"><i class="hgi-stroke hgi-camera-01"></i></div>
                 <div class="photo-geotag-meta">
                     <strong>${photoId}</strong><br>
                     GPS: 21.5721°N, 83.8710°E<br>

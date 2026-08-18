@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Hugeicons Font Library -->
+    <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css">
     <style>
         :root {
             --gov-navy: #1a3a6b;
@@ -71,6 +73,7 @@
             width: 52px;
             height: 52px;
             background: #ffffff;
+            color: var(--gov-navy);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -190,6 +193,7 @@
             align-items: center;
             justify-content: center;
             font-size: 28px;
+            color: var(--gov-navy);
             flex-shrink: 0;
             background: #ffffff;
             border: 1px solid var(--border-color);
@@ -226,8 +230,13 @@
             margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             font-weight: 600;
+        }
+
+        .role-access-pill i {
+            font-size: 16px;
+            color: var(--gov-navy);
         }
 
         .feature-list {
@@ -246,11 +255,11 @@
             line-height: 1.4;
         }
 
-        .feature-list li::before {
-            content: "✓";
+        .feature-list li i.check-icon {
             color: var(--gov-green);
-            font-weight: 800;
-            font-size: 14px;
+            font-size: 16px;
+            margin-top: 1px;
+            flex-shrink: 0;
         }
 
         .portal-btn {
@@ -267,6 +276,10 @@
             transition: all 0.2s ease;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+        }
+
+        .portal-btn i {
+            font-size: 18px;
         }
 
         .portal-btn.primary {
@@ -351,7 +364,9 @@
     <header class="gov-header">
         <div class="header-content">
             <div class="header-brand">
-                <div class="emblem-box">🏛️</div>
+                <div class="emblem-box">
+                    <i class="hgi-stroke hgi-bank"></i>
+                </div>
                 <div class="brand-text">
                     <h1>Government of Odisha</h1>
                     <p>Department of Water Resources — State Dam Safety Organisation (SDSO)</p>
@@ -378,7 +393,9 @@
             <!-- CARD 1: Central Web Application -->
             <div class="portal-card">
                 <div class="portal-card-header">
-                    <div class="portal-icon">🖥️</div>
+                    <div class="portal-icon">
+                        <i class="hgi-stroke hgi-computer"></i>
+                    </div>
                     <div class="portal-title-area">
                         <h3>Central Engineering Portal</h3>
                         <div class="tagline">Desktop Command & Analytics Environment</div>
@@ -386,19 +403,19 @@
                 </div>
                 <div class="portal-card-body">
                     <div class="role-access-pill">
-                        <span>👥</span>
+                        <i class="hgi-stroke hgi-user-group"></i>
                         <span>Roles: State Mgmt, Chief Engineer, SE, EE, Consultant</span>
                     </div>
                     <ul class="feature-list">
-                        <li><strong>Management-by-Exception Dashboard:</strong> Real-time safety KPIs, risk ratings & overdue compliance indicators.</li>
-                        <li><strong>Dams Master Registry:</strong> Search, filter by basin/circle, structural dimensions & inspection history.</li>
-                        <li><strong>Inspection Planning & Review:</strong> Formal committee assignment, defect audit workflows & approvals.</li>
-                        <li><strong>Corrective Actions & Works:</strong> Contract allocations, contractor monitoring & financial tracking.</li>
-                        <li><strong>Granular Role-Based Access:</strong> 10 distinct operational & administrative access boundaries.</li>
+                        <li><i class="hgi-stroke hgi-checkmark-circle-01 check-icon"></i> <div><strong>Management-by-Exception Dashboard:</strong> Real-time safety KPIs, risk ratings & overdue compliance indicators.</div></li>
+                        <li><i class="hgi-stroke hgi-checkmark-circle-01 check-icon"></i> <div><strong>Dams Master Registry:</strong> Search, filter by basin/circle, structural dimensions & inspection history.</div></li>
+                        <li><i class="hgi-stroke hgi-checkmark-circle-01 check-icon"></i> <div><strong>Inspection Planning & Review:</strong> Formal committee assignment, defect audit workflows & approvals.</div></li>
+                        <li><i class="hgi-stroke hgi-checkmark-circle-01 check-icon"></i> <div><strong>Corrective Actions & Works:</strong> Contract allocations, contractor monitoring & financial tracking.</div></li>
+                        <li><i class="hgi-stroke hgi-checkmark-circle-01 check-icon"></i> <div><strong>Granular Role-Based Access:</strong> 10 distinct operational & administrative access boundaries.</div></li>
                     </ul>
                     <a href="index.html" class="portal-btn primary">
                         <span>Launch Central Web Portal</span>
-                        <span>→</span>
+                        <i class="hgi-stroke hgi-arrow-right-01"></i>
                     </a>
                 </div>
             </div>
@@ -406,7 +423,9 @@
             <!-- CARD 2: Mobile Field Application -->
             <div class="portal-card">
                 <div class="portal-card-header">
-                    <div class="portal-icon">📱</div>
+                    <div class="portal-icon">
+                        <i class="hgi-stroke hgi-smart-phone-01"></i>
+                    </div>
                     <div class="portal-title-area">
                         <h3>Field Inspection App</h3>
                         <div class="tagline">Mobile Device Simulator (Offline-First)</div>
@@ -414,19 +433,19 @@
                 </div>
                 <div class="portal-card-body">
                     <div class="role-access-pill">
-                        <span>👥</span>
+                        <i class="hgi-stroke hgi-user-group"></i>
                         <span>Roles: Junior Engineer, Assistant Engineer, Field Vendor</span>
                     </div>
                     <ul class="feature-list">
-                        <li><strong>Pre & Post-Monsoon Checklists:</strong> Structured field inspections on spillways, galleries & masonry.</li>
-                        <li><strong>Offline Storage & Cloud Sync:</strong> Works in zero-network remote dam zones with local draft queuing.</li>
-                        <li><strong>GPS Geotagged Evidence:</strong> Capture and timestamp photographic evidence of structural cracks & seepage.</li>
-                        <li><strong>Contractor Milestone Progress:</strong> On-site physical rehabilitation progress logging and verification.</li>
-                        <li><strong>Field Alarms & Job Dispatch:</strong> Real-time alerts and scheduled statutory inspections.</li>
+                        <li><i class="hgi-stroke hgi-checkmark-circle-01 check-icon"></i> <div><strong>Pre & Post-Monsoon Checklists:</strong> Structured field inspections on spillways, galleries & masonry.</div></li>
+                        <li><i class="hgi-stroke hgi-checkmark-circle-01 check-icon"></i> <div><strong>Offline Storage & Cloud Sync:</strong> Works in zero-network remote dam zones with local draft queuing.</div></li>
+                        <li><i class="hgi-stroke hgi-checkmark-circle-01 check-icon"></i> <div><strong>GPS Geotagged Evidence:</strong> Capture and timestamp photographic evidence of structural cracks & seepage.</div></li>
+                        <li><i class="hgi-stroke hgi-checkmark-circle-01 check-icon"></i> <div><strong>Contractor Milestone Progress:</strong> On-site physical rehabilitation progress logging and verification.</div></li>
+                        <li><i class="hgi-stroke hgi-checkmark-circle-01 check-icon"></i> <div><strong>Field Alarms & Job Dispatch:</strong> Real-time alerts and scheduled statutory inspections.</div></li>
                     </ul>
                     <a href="mobile.html" class="portal-btn secondary">
                         <span>Launch Mobile Field App</span>
-                        <span>→</span>
+                        <i class="hgi-stroke hgi-arrow-right-01"></i>
                     </a>
                 </div>
             </div>
