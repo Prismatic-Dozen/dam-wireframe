@@ -9,8 +9,20 @@
   ],
   "routes": [
     {
+      "src": "/portal",
+      "dest": "/index.html"
+    },
+    {
       "src": "/mobile",
       "dest": "/mobile.html"
+    },
+    {
+      "src": "/landing",
+      "dest": "/landing.html"
+    },
+    {
+      "src": "/",
+      "dest": "/landing.html"
     },
     {
       "src": "/(.*)",

@@ -150,9 +150,9 @@
                         <div><span class="status-dot green"></span> GREEN = Normal Status</div>
                     </div>
                 </div>
-                <div style="margin-top: 10px; border-top: 2px dashed #999999; padding-top: 10px;">
-                    <a href="mobile.html" target="_blank" class="wireframe-btn primary" style="width: 100%; justify-content: center; font-size: 11px; text-decoration: none;">
-                        📱 Mobile Field App Simulator
+                <div style="margin-top: 10px; border-top: 1px solid var(--divider); padding-top: 10px;">
+                    <a href="landing.html" class="wireframe-btn" style="width: 100%; justify-content: center; font-size: 11px; text-decoration: none;">
+                        🏛️ Portal Hub
                     </a>
                 </div>
                 <button class="wireframe-btn" onclick="handleLogout()" style="width: 100%; margin-top: 10px; justify-content: center; font-size: 11px;">
@@ -205,20 +205,36 @@
 
                 <!-- 2. STATE MANAGEMENT DASHBOARD -->
                 <div id="screen-state-dashboard" class="screen-view">
+                    <!-- Role-restricted access banner -->
+                    <div id="role-access-banner" style="display:none; background:#fff3cd; border:1px solid #ffc107; border-radius:4px; padding:8px 14px; margin-bottom:12px; align-items:center; gap:10px; font-size:12px; font-weight:600; color:#856404;">
+                        <span>⚠️</span>
+                        <span>Restricted View: You are logged in as <strong id="banner-role-text"></strong>. Some dashboard sections are not visible to your role.</span>
+                    </div>
                     <div class="section-header">
                         <div>
                             <h2 class="section-title">STATE MANAGEMENT DASHBOARD</h2>
                             <p class="section-subtitle">Management-by-Exception Portal (Odisha State Dams Safety Division)</p>
                         </div>
-                        <div style="display: flex; gap: 10px;">
+                        <div id="dashboard-date-filter" style="display:flex; gap:10px; align-items:center;">
                             <select class="wireframe-select"><option>State: Odisha</option></select>
                             <select class="wireframe-select"><option>All Districts</option></select>
-                            <button class="wireframe-btn">📅 Select Dates</button>
+                            <label style="font-size:11px; font-weight:600; white-space:nowrap;">From:</label>
+                            <input type="date" id="dash-date-from" class="wireframe-input" style="width:130px; padding:4px 6px; font-size:12px;">
+                            <label style="font-size:11px; font-weight:600; white-space:nowrap;">To:</label>
+                            <input type="date" id="dash-date-to" class="wireframe-input" style="width:130px; padding:4px 6px; font-size:12px;">
+                            <button class="wireframe-btn primary" onclick="applyDashboardDateFilter()">Apply Filter</button>
                         </div>
+                    </div>
+                    <!-- Vendor/Contractor no-dashboard message -->
+                    <div id="vendor-no-access-msg" style="display:none; text-align:center; padding:40px; color:#666; border:2px dashed #ccc; border-radius:8px; margin-bottom:20px;">
+                        <div style="font-size:36px; margin-bottom:10px;">🏗️</div>
+                        <strong>Contractor Portal View</strong>
+                        <p style="font-size:12px; margin-top:8px;">As a Vendor/Contractor, you have access to Works and Document sections only.<br>Please use the sidebar to navigate to your relevant modules.</p>
+                        <button class="wireframe-btn primary" onclick="showScreen('screen-work-management')" style="margin-top:12px;">View My Works →</button>
                     </div>
 
                     <!-- KPI Cards Row -->
-                    <div class="row">
+                    <div class="row" id="dashboard-kpi-row">
                         <div class="kpi-card" onclick="showScreen('screen-dam-registry')">
                             <div class="kpi-header"><span>TOTAL DAMS</span><span>🧱</span></div>
                             <div class="kpi-value-row">
@@ -287,7 +303,7 @@
                                 </h3>
                                 <div class="table-container">
                                     <table class="wireframe-table">
-                                        <thead>
+                                        <thead id="dashboard-status-thead">
                                             <tr>
                                                 <th>Dam Name</th>
                                                 <th>District</th>
@@ -417,7 +433,7 @@
                             <h2 class="section-title">DAM REGISTRY</h2>
                             <p class="section-subtitle">Comprehensive master list of all state water reservoirs and check-dams</p>
                         </div>
-                        <button class="wireframe-btn primary" onclick="alert('Add Dam profile form loaded in Master workspace.')">
+                        <button id="add-dam-btn" class="wireframe-btn primary" onclick="alert('Add Dam profile form loaded in Master workspace.')">
                             ➕ Add New Dam
                         </button>
                     </div>
@@ -723,10 +739,10 @@
                             <p class="section-subtitle">Schedule, assign, track, and verify formal dam safety reviews</p>
                         </div>
                         <div style="display: flex; gap: 10px;">
-                            <button class="wireframe-btn primary" onclick="showScreen('screen-inspection-planning')">
+                            <button id="plan-inspection-btn" class="wireframe-btn primary" onclick="showScreen('screen-inspection-planning')">
                                 📅 Plan New Inspection
                             </button>
-                            <button class="wireframe-btn" onclick="alert('Assigned team members notification batch sent.')">
+                            <button id="dispatch-team-btn" class="wireframe-btn" onclick="showToast('Team assignment notification batch sent.','success')">
                                 📣 Dispatch Team
                             </button>
                         </div>
@@ -986,7 +1002,7 @@
                                 </div>
 
                                 <!-- Action Buttons -->
-                                <div style="display:flex; flex-direction:column; gap:8px; margin-top:20px;">
+                                <div id="rev-action-panel" style="display:flex; flex-direction:column; gap:8px; margin-top:20px;">
                                     <button class="wireframe-btn primary" onclick="handleInspectionReviewSubmit('approve')" style="justify-content:center;">
                                         ✅ Approve & Register Defect
                                     </button>
@@ -994,11 +1010,6 @@
                                         ↩️ Return for Correction
                                     </button>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- 9. OBSERVATION MANAGEMENT -->
                 <div id="screen-observation-management" class="screen-view">
                     <div class="section-header">
@@ -1147,12 +1158,15 @@
                                 </div>
 
                                 <div style="margin-top: 20px; border-top: 1px dashed #ccc; padding-top: 15px;">
-                                    <button class="wireframe-btn primary" onclick="handleAssignCorrectiveAction()" style="width: 100%; justify-content: center; margin-bottom: 10px;">
+                                    <button id="obs-allocate-btn" class="wireframe-btn primary" onclick="handleAssignCorrectiveAction()" style="width: 100%; justify-content: center; margin-bottom: 10px;">
                                         🛠️ Allocate Work / Grout Contract
                                     </button>
-                                    <button class="wireframe-btn" onclick="alert('Deficiency escalated to Chief Engineer Safety committee.')" style="width: 100%; justify-content: center;">
+                                    <button id="obs-escalate-btn" class="wireframe-btn" onclick="showToast('Deficiency escalated to Chief Engineer Safety committee.','info')" style="width: 100%; justify-content: center;">
                                         ⚠️ Escalate Safety Alert
                                     </button>
+                                    <div id="obs-readonly-msg" style="display:none; background:#fff8f0; border:1px solid #ffc107; border-radius:4px; padding:10px; font-size:11px; color:#856404; margin-top:10px;">
+                                        🔒 <strong>Read Only:</strong> Your role cannot assign corrective actions or escalate alerts.
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1166,7 +1180,7 @@
                             <h2 class="section-title">CORRECTIVE ACTIONS & TRACKING</h2>
                             <p class="section-subtitle">Monitor the deployment, progress and verification status of all corrective tasks</p>
                         </div>
-                        <button class="wireframe-btn primary" onclick="alert('Creating new corrective task form in action workspace.')">
+                        <button id="create-corrective-btn" class="wireframe-btn primary" onclick="alert('Creating new corrective task form in action workspace.')">
                             ➕ Create Corrective Task
                         </button>
                     </div>
@@ -1209,7 +1223,7 @@
                             <h2 class="section-title">CONSTRUCTION & REHABILITATION WORK</h2>
                             <p class="section-subtitle">Track structural, hydromechanical, and electrical rehabilitation works</p>
                         </div>
-                        <button class="wireframe-btn primary" onclick="alert('Opening contract registration form.')">
+                        <button id="register-work-btn" class="wireframe-btn primary" onclick="alert('Opening contract registration form.')">
                             ➕ Register New Work Order
                         </button>
                     </div>
@@ -1551,7 +1565,7 @@
                             <h2 class="section-title">CENTRAL DOCUMENT SAFE</h2>
                             <p class="section-subtitle">Publish, store and audit structural drawings, EAP sheets and safety audit logs</p>
                         </div>
-                        <button class="wireframe-btn primary" onclick="alert('Upload document interface loaded.')">
+                        <button id="upload-doc-btn" class="wireframe-btn primary" onclick="alert('Upload document interface loaded.')">
                             📤 Upload Document File
                         </button>
                     </div>
@@ -1862,7 +1876,7 @@
                             <h2 class="section-title">USER PROFILE & ROLE CONFIGURATION</h2>
                             <p class="section-subtitle">Control application feature visibility and jurisdictional access boundaries</p>
                         </div>
-                        <button class="wireframe-btn primary" onclick="alert('Open User Registration panel.')">
+                        <button id="add-user-btn" class="wireframe-btn primary" onclick="alert('Open User Registration panel.')">
                             ➕ Register New User Profile
                         </button>
                     </div>

@@ -287,12 +287,21 @@ select.wireframe-select {
     font-family: var(--font-main);
     outline: none;
     cursor: pointer;
+    /* Fix for Windows: options need explicit styling */
+    appearance: auto;
+}
+
+select.wireframe-select option {
+    background-color: #ffffff;
+    color: var(--text-primary);
+    font-weight: 500;
 }
 
 select.wireframe-select:focus {
     border-color: rgba(255,255,255,0.6);
     box-shadow: none;
 }
+
 
 /* Selects inside content area (not header) */
 .page-content select.wireframe-select,
@@ -1194,4 +1203,29 @@ select.wireframe-select:focus {
 [style*="box-shadow: 2px 2px 0"],
 [style*="box-shadow: 3px 3px 0"] {
     box-shadow: var(--card-shadow) !important;
+}
+
+/* ============================================================
+   TOAST / NOTIFICATION ANIMATION
+   ============================================================ */
+@keyframes slideInRight {
+    from { transform: translateX(60px); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+}
+
+/* ============================================================
+   ROLE ACCESS BANNER
+   ============================================================ */
+#role-access-banner {
+    display: none;
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 4px;
+    padding: 8px 14px;
+    margin-bottom: 12px;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #856404;
 }

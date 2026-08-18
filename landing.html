@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrated Dam Safety Management & Monitoring System — Portal Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gov-navy: #1a3a6b;
+            --gov-navy-dark: #102444;
+            --gov-navy-light: #2a5298;
+            --gov-saffron: #f5a623;
+            --gov-green: #1e8449;
+            --gov-red: #c0392b;
+            --body-bg: #eef2f7;
+            --card-bg: #ffffff;
+            --border-color: #d2d9e5;
+            --text-primary: #1c2b3a;
+            --text-secondary: #576574;
+            --font-main: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--body-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Government Tricolor Strip */
+        .gov-top-strip {
+            height: 4px;
+            background: linear-gradient(90deg, #ff9933 0%, #ff9933 33.33%, #ffffff 33.33%, #ffffff 66.66%, #138808 66.66%, #138808 100%);
+        }
+
+        /* Official Header */
+        .gov-header {
+            background-color: var(--gov-navy);
+            color: #ffffff;
+            padding: 16px 32px;
+            border-bottom: 3px solid var(--gov-saffron);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .emblem-box {
+            width: 52px;
+            height: 52px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        .brand-text h1 {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .brand-text p {
+            font-size: 12px;
+            color: #cbd5e1;
+            margin-top: 2px;
+        }
+
+        .ndsa-tag {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #f1f5f9;
+            text-align: right;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 0 24px;
+            flex-grow: 1;
+        }
+
+        .intro-banner {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .intro-banner .badge {
+            display: inline-block;
+            background: #e0e7ff;
+            color: var(--gov-navy);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            border: 1px solid #c7d2fe;
+        }
+
+        .intro-banner h2 {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--gov-navy-dark);
+            margin-bottom: 8px;
+        }
+
+        .intro-banner p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        /* Dual Launcher Cards Grid */
+        .launcher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+            gap: 28px;
+            margin-bottom: 36px;
+        }
+
+        .portal-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            position: relative;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 24px rgba(26,58,107,0.12);
+            border-color: var(--gov-navy-light);
+        }
+
+        .portal-card-header {
+            padding: 24px;
+            background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .portal-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .portal-title-area h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gov-navy);
+            margin-bottom: 4px;
+        }
+
+        .portal-title-area .tagline {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .portal-card-body {
+            padding: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .role-access-pill {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 11px;
+            color: #334155;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .feature-list li {
+            font-size: 13px;
+            color: #334155;
+            padding: 6px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.4;
+        }
+
+        .feature-list li::before {
+            content: "✓";
+            color: var(--gov-green);
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .portal-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .portal-btn.primary {
+            background-color: var(--gov-navy);
+            color: #ffffff;
+            border: 1px solid var(--gov-navy-dark);
+        }
+
+        .portal-btn.primary:hover {
+            background-color: var(--gov-navy-dark);
+            box-shadow: 0 4px 12px rgba(16,36,68,0.25);
+        }
+
+        .portal-btn.secondary {
+            background-color: #ffffff;
+            color: var(--gov-navy);
+            border: 2px solid var(--gov-navy);
+        }
+
+        .portal-btn.secondary:hover {
+            background-color: #f8fafc;
+            border-color: var(--gov-navy-dark);
+            color: var(--gov-navy-dark);
+        }
+
+        /* Footer */
+        .gov-footer {
+            background: #ffffff;
+            border-top: 1px solid var(--border-color);
+            padding: 20px 32px;
+            margin-top: auto;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-links a {
+            color: var(--gov-navy);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .launcher-grid {
+                grid-template-columns: 1fr;
+            }
+            .header-content {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+            .ndsa-tag {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tricolor Top Strip -->
+    <div class="gov-top-strip"></div>
+
+    <!-- Official Government Header -->
+    <header class="gov-header">
+        <div class="header-content">
+            <div class="header-brand">
+                <div class="emblem-box">🏛️</div>
+                <div class="brand-text">
+                    <h1>Government of Odisha</h1>
+                    <p>Department of Water Resources — State Dam Safety Organisation (SDSO)</p>
+                </div>
+            </div>
+            <div class="ndsa-tag">
+                <div>National Dam Safety Act, 2021</div>
+                <div style="font-size:10px; color:#cbd5e1; font-weight:normal;">Statutory Compliance & Surveillance System</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-container">
+        <div class="intro-banner">
+            <span class="badge">Integrated Platform Suite</span>
+            <h2>Dam Safety Management & Monitoring System (IDSMMS)</h2>
+            <p>Select the environment you wish to simulate. The platform supports both centralized administrative oversight and field operations.</p>
+        </div>
+
+        <!-- Launcher Cards Grid -->
+        <div class="launcher-grid">
+            
+            <!-- CARD 1: Central Web Application -->
+            <div class="portal-card">
+                <div class="portal-card-header">
+                    <div class="portal-icon">🖥️</div>
+                    <div class="portal-title-area">
+                        <h3>Central Engineering Portal</h3>
+                        <div class="tagline">Desktop Command & Analytics Environment</div>
+                    </div>
+                </div>
+                <div class="portal-card-body">
+                    <div class="role-access-pill">
+                        <span>👥</span>
+                        <span>Roles: State Mgmt, Chief Engineer, SE, EE, Consultant</span>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>Management-by-Exception Dashboard:</strong> Real-time safety KPIs, risk ratings & overdue compliance indicators.</li>
+                        <li><strong>Dams Master Registry:</strong> Search, filter by basin/circle, structural dimensions & inspection history.</li>
+                        <li><strong>Inspection Planning & Review:</strong> Formal committee assignment, defect audit workflows & approvals.</li>
+                        <li><strong>Corrective Actions & Works:</strong> Contract allocations, contractor monitoring & financial tracking.</li>
+                        <li><strong>Granular Role-Based Access:</strong> 10 distinct operational & administrative access boundaries.</li>
+                    </ul>
+                    <a href="index.html" class="portal-btn primary">
+                        <span>Launch Central Web Portal</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- CARD 2: Mobile Field Application -->
+            <div class="portal-card">
+                <div class="portal-card-header">
+                    <div class="portal-icon">📱</div>
+                    <div class="portal-title-area">
+                        <h3>Field Inspection App</h3>
+                        <div class="tagline">Mobile Device Simulator (Offline-First)</div>
+                    </div>
+                </div>
+                <div class="portal-card-body">
+                    <div class="role-access-pill">
+                        <span>👥</span>
+                        <span>Roles: Junior Engineer, Assistant Engineer, Field Vendor</span>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>Pre & Post-Monsoon Checklists:</strong> Structured field inspections on spillways, galleries & masonry.</li>
+                        <li><strong>Offline Storage & Cloud Sync:</strong> Works in zero-network remote dam zones with local draft queuing.</li>
+                        <li><strong>GPS Geotagged Evidence:</strong> Capture and timestamp photographic evidence of structural cracks & seepage.</li>
+                        <li><strong>Contractor Milestone Progress:</strong> On-site physical rehabilitation progress logging and verification.</li>
+                        <li><strong>Field Alarms & Job Dispatch:</strong> Real-time alerts and scheduled statutory inspections.</li>
+                    </ul>
+                    <a href="mobile.html" class="portal-btn secondary">
+                        <span>Launch Mobile Field App</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="gov-footer">
+        <div class="footer-content">
+            <div>
+                © 2026 Odisha Dam Safety Organisation (SDSO). Integrated Dam Safety Management System Prototype.
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Web Portal</a>
+                <a href="mobile.html">Mobile App</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

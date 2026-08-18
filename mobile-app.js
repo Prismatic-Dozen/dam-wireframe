@@ -1,10 +1,14 @@
-// JavaScript Logic for Odisha Dam Safety Mobile Field App Simulator
+// ============================================================
+// Odisha Dam Safety Mobile Field App — Logic & Simulator
+// ============================================================
 
-// App State
+// App Global State
 let IS_ONLINE = true;
 let ACTIVE_SCREEN = "screen-mob-login";
 let SELECTED_DAM_ID = "D00123";
-let CURRENT_INSP_ID = "INSP-2025-001";
+let CURRENT_INSP_ID = "INSP-2025-01";
+let CURRENT_MOBILE_ROLE = "Junior Engineer"; // Default field role
+
 let PENDING_SYNC_ITEMS = {
     inspections: 0,
     observations: 0,
@@ -19,6 +23,44 @@ const LOCAL_DB = {
     checklistStore: {}
 };
 
+// Mobile Role Permissions Matrix
+const MOBILE_ROLE_PERMISSIONS = {
+    roles: [
+        { id: "Junior Engineer", name: "Junior Engineer", title: "Field Inspector", icon: "👷" },
+        { id: "Assistant Engineer", name: "Assistant Engineer", title: "Sub-Divisional Officer", icon: "📋" },
+        { id: "Executive Engineer", name: "Executive Engineer", title: "Division In-Charge", icon: "🏛️" },
+        { id: "Vendor/Contractor", name: "Vendor/Contractor", title: "Executing Agency", icon: "🏗️" }
+    ],
+
+    // Navigation tab access per role
+    navAccess: {
+        "Junior Engineer":     ["tab-home", "tab-inspections", "tab-works", "tab-alerts", "tab-more"],
+        "Assistant Engineer":  ["tab-home", "tab-inspections", "tab-works", "tab-alerts", "tab-more"],
+        "Executive Engineer":  ["tab-home", "tab-inspections", "tab-works", "tab-alerts", "tab-more"],
+        "Vendor/Contractor":   ["tab-home", "tab-works", "tab-more"]
+    },
+
+    // Permitted screens per role
+    screenAccess: {
+        "Junior Engineer":     ["screen-mob-login", "screen-mob-dashboard", "screen-mob-inspections", "screen-mob-dam-profile", "screen-mob-details", "screen-mob-checklist", "screen-mob-record-observation", "screen-mob-evidence", "screen-mob-observation-detail", "screen-mob-corrective-action", "screen-mob-work-progress", "screen-mob-review-submit", "screen-mob-sync", "screen-mob-alerts", "screen-mob-profile"],
+        "Assistant Engineer":  ["screen-mob-login", "screen-mob-dashboard", "screen-mob-inspections", "screen-mob-dam-profile", "screen-mob-details", "screen-mob-checklist", "screen-mob-record-observation", "screen-mob-evidence", "screen-mob-observation-detail", "screen-mob-corrective-action", "screen-mob-work-progress", "screen-mob-review-submit", "screen-mob-sync", "screen-mob-alerts", "screen-mob-profile"],
+        "Executive Engineer":  ["screen-mob-login", "screen-mob-dashboard", "screen-mob-inspections", "screen-mob-dam-profile", "screen-mob-details", "screen-mob-checklist", "screen-mob-record-observation", "screen-mob-evidence", "screen-mob-observation-detail", "screen-mob-corrective-action", "screen-mob-work-progress", "screen-mob-review-submit", "screen-mob-sync", "screen-mob-alerts", "screen-mob-profile"],
+        "Vendor/Contractor":   ["screen-mob-login", "screen-mob-dashboard", "screen-mob-work-progress", "screen-mob-evidence", "screen-mob-sync", "screen-mob-profile"]
+    },
+
+    // Action capabilities
+    canFillChecklist: ["Junior Engineer", "Assistant Engineer"],
+    canRecordObservation: ["Junior Engineer", "Assistant Engineer", "Executive Engineer"],
+    canApproveOnSite: ["Executive Engineer"],
+    canLogWorkProgress: ["Junior Engineer", "Assistant Engineer", "Vendor/Contractor"]
+};
+
+// Check role permission helper
+function canMob(role, permission) {
+    const list = MOBILE_ROLE_PERMISSIONS[permission];
+    return list && list.includes(role);
+}
+
 // Console Log helper for simulator panel
 function writeSimConsole(message) {
     const consoleBox = document.getElementById('sim-console');
@@ -27,14 +69,31 @@ function writeSimConsole(message) {
     const time = new Date().toLocaleTimeString();
     const line = document.createElement('div');
     line.className = 'console-line';
-    line.innerHTML = `[${time}] <span style="color:${message.includes('ERROR') ? '#ff4d4d' : message.includes('SUCCESS') ? '#4dff4d' : '#33ff33'}">${message}</span>`;
     
+    let color = '#38bdf8';
+    if (message.includes('ERROR') || message.includes('DENIED')) color = '#f87171';
+    else if (message.includes('SUCCESS')) color = '#4ade80';
+    else if (message.includes('WARNING')) color = '#fbbf24';
+
+    line.innerHTML = `[${time}] <span style="color:${color}">${message}</span>`;
     consoleBox.appendChild(line);
     consoleBox.scrollTop = consoleBox.scrollHeight;
 }
 
-// 1. Navigation Controller
+// ============================================================
+// 1. Navigation & Screen Controller
+// ============================================================
+
 function showMobileScreen(screenId) {
+    const allowedScreens = MOBILE_ROLE_PERMISSIONS.screenAccess[CURRENT_MOBILE_ROLE] || [];
+    
+    // RBAC Check for mobile screen
+    if (screenId !== 'screen-mob-login' && !allowedScreens.includes(screenId)) {
+        writeSimConsole(`ACCESS DENIED: Role ${CURRENT_MOBILE_ROLE} cannot open ${screenId}`);
+        alert(`Access Restricted\n\nYour mobile role "${CURRENT_MOBILE_ROLE}" does not have permission to view this section.`);
+        return;
+    }
+
     ACTIVE_SCREEN = screenId;
     
     // Hide all mobile screens
@@ -55,21 +114,29 @@ function showMobileScreen(screenId) {
     
     // Auto highlight based on screenId
     if (['screen-mob-dashboard', 'screen-mob-login'].includes(screenId)) {
-        document.getElementById('tab-home').classList.add('active');
+        const t = document.getElementById('tab-home');
+        if (t) t.classList.add('active');
     } else if (['screen-mob-inspections', 'screen-mob-details', 'screen-mob-checklist', 'screen-mob-review-submit'].includes(screenId)) {
-        document.getElementById('tab-inspections').classList.add('active');
+        const t = document.getElementById('tab-inspections');
+        if (t) t.classList.add('active');
     } else if (['screen-mob-work-progress'].includes(screenId)) {
-        document.getElementById('tab-works').classList.add('active');
+        const t = document.getElementById('tab-works');
+        if (t) t.classList.add('active');
     } else if (['screen-mob-alerts'].includes(screenId)) {
-        document.getElementById('tab-alerts').classList.add('active');
+        const t = document.getElementById('tab-alerts');
+        if (t) t.classList.add('active');
     } else if (['screen-mob-profile'].includes(screenId)) {
-        document.getElementById('tab-more').classList.add('active');
+        const t = document.getElementById('tab-more');
+        if (t) t.classList.add('active');
     }
 
-    // Update screen headers
+    // Update screen headers & titles
     updateHeaderTitle(screenId);
 
-    // Refresh dynamic lists
+    // Apply role-based visibility across the UI
+    applyMobileRoleAccess();
+
+    // Refresh dynamic screen content
     if (screenId === 'screen-mob-dashboard') {
         loadMobileDashboard();
     } else if (screenId === 'screen-mob-inspections') {
@@ -90,36 +157,111 @@ function showMobileScreen(screenId) {
         loadMobileObservationDetail();
     } else if (screenId === 'screen-mob-work-progress') {
         loadMobileWorkProgress();
+    } else if (screenId === 'screen-mob-profile') {
+        loadMobileProfile();
     }
 
-    writeSimConsole(`NAV: Screen changed to ${screenId}`);
+    writeSimConsole(`NAV: Switched to screen ${screenId}`);
 }
 
-// Update mobile view titles
+// Update Header Title
 function updateHeaderTitle(screenId) {
     const titleEl = document.getElementById('mob-header-title');
     if (!titleEl) return;
 
-    let title = "Dam Safety Wing";
-    if (screenId === 'screen-mob-dashboard') title = "Field Dashboard";
-    else if (screenId === 'screen-mob-inspections') title = "Assigned Inspections";
-    else if (screenId === 'screen-mob-dam-profile') title = "Dam Profile";
-    else if (screenId === 'screen-mob-details') title = "Inspection Details";
-    else if (screenId === 'screen-mob-checklist') title = "Checklist Tasks";
-    else if (screenId === 'screen-mob-record-observation') title = "Record Observation";
-    else if (screenId === 'screen-mob-evidence') title = "Capture Photo Evidence";
-    else if (screenId === 'screen-mob-observation-detail') title = "Observation Details";
-    else if (screenId === 'screen-mob-corrective-action') title = "Corrective Actions";
-    else if (screenId === 'screen-mob-work-progress') title = "Progress Capture";
-    else if (screenId === 'screen-mob-review-submit') title = "Review & Submit";
-    else if (screenId === 'screen-mob-sync') title = "Sync Center";
-    else if (screenId === 'screen-mob-alerts') title = "Field Alarms";
-    else if (screenId === 'screen-mob-profile') title = "My Profile";
+    const titles = {
+        'screen-mob-login': 'Dam Safety Login',
+        'screen-mob-dashboard': 'Field Dashboard',
+        'screen-mob-inspections': 'Assigned Jobs',
+        'screen-mob-dam-profile': 'Dam Profile',
+        'screen-mob-details': 'Inspection Info',
+        'screen-mob-checklist': 'Safety Checklist',
+        'screen-mob-record-observation': 'Log Observation',
+        'screen-mob-evidence': 'Capture Evidence',
+        'screen-mob-observation-detail': 'Defect Details',
+        'screen-mob-corrective-action': 'Corrective Task',
+        'screen-mob-work-progress': 'Works Progress',
+        'screen-mob-review-submit': 'Review & Submit',
+        'screen-mob-sync': 'Sync Center',
+        'screen-mob-alerts': 'Field Alarms',
+        'screen-mob-profile': 'My Account'
+    };
 
-    titleEl.innerText = title;
+    titleEl.innerText = titles[screenId] || "Dam Safety Wing";
 }
 
-// 2. Offline Mode Toggles
+// ============================================================
+// 2. Mobile Role-Based Access Control (RBAC)
+// ============================================================
+
+function setMobileRole(role) {
+    CURRENT_MOBILE_ROLE = role;
+    
+    // Update role select in simulator panel
+    const sel = document.getElementById('sim-role-select');
+    if (sel) sel.value = role;
+
+    writeSimConsole(`ROLE CHANGE: Active mobile profile changed to ${role}`);
+    
+    // Update banner text
+    const bannerTxt = document.getElementById('mob-role-banner-text');
+    if (bannerTxt) bannerTxt.innerText = `Role: ${role}`;
+
+    // Apply visibility rules
+    applyMobileRoleAccess();
+
+    // If on restricted screen, navigate to dashboard
+    const allowed = MOBILE_ROLE_PERMISSIONS.screenAccess[CURRENT_MOBILE_ROLE] || [];
+    if (!allowed.includes(ACTIVE_SCREEN) && ACTIVE_SCREEN !== 'screen-mob-login') {
+        showMobileScreen('screen-mob-dashboard');
+    } else {
+        showMobileScreen(ACTIVE_SCREEN);
+    }
+}
+
+function applyMobileRoleAccess() {
+    const allowedTabs = MOBILE_ROLE_PERMISSIONS.navAccess[CURRENT_MOBILE_ROLE] || [];
+    const isVendor = CURRENT_MOBILE_ROLE === "Vendor/Contractor";
+
+    // Show/hide bottom navigation tabs based on role
+    ["tab-home", "tab-inspections", "tab-works", "tab-alerts", "tab-more"].forEach(tabId => {
+        const el = document.getElementById(tabId);
+        if (el) {
+            el.style.display = allowedTabs.includes(tabId) ? 'flex' : 'none';
+        }
+    });
+
+    // Mobile Dashboard dynamic view by role
+    const inspSummaryCard = document.getElementById('dash-insp-summary');
+    const vendorWorkCard  = document.getElementById('dash-vendor-summary');
+    const startInspBtn    = document.getElementById('dash-start-insp-btn');
+    const logWorkBtn      = document.getElementById('dash-log-work-btn');
+
+    if (isVendor) {
+        if (inspSummaryCard) inspSummaryCard.style.display = 'none';
+        if (vendorWorkCard)  vendorWorkCard.style.display  = 'block';
+        if (startInspBtn)    startInspBtn.style.display    = 'none';
+        if (logWorkBtn)      logWorkBtn.style.display      = 'flex';
+    } else {
+        if (inspSummaryCard) inspSummaryCard.style.display = 'block';
+        if (vendorWorkCard)  vendorWorkCard.style.display  = 'none';
+        if (startInspBtn)    startInspBtn.style.display    = 'flex';
+        if (logWorkBtn)      logWorkBtn.style.display      = 'none';
+    }
+
+    // Role banner update
+    const roleBanner = document.getElementById('mob-role-banner');
+    if (roleBanner) {
+        roleBanner.style.display = ACTIVE_SCREEN === 'screen-mob-login' ? 'none' : 'flex';
+        const txt = document.getElementById('mob-role-banner-text');
+        if (txt) txt.innerText = `Logged in: ${CURRENT_MOBILE_ROLE}`;
+    }
+}
+
+// ============================================================
+// 3. Offline Mode Simulation
+// ============================================================
+
 function setNetworkStatus(online) {
     IS_ONLINE = online;
     const body = document.body;
@@ -128,39 +270,57 @@ function setNetworkStatus(online) {
 
     if (IS_ONLINE) {
         body.classList.remove('offline');
-        banner.style.display = 'none';
-        headerIndicator.style.display = 'none';
-        document.getElementById('sim-network-chk').checked = true;
-        writeSimConsole("SYSTEM: Network status switched to ONLINE. Cloud synced active.");
+        if (banner) banner.style.display = 'none';
+        if (headerIndicator) headerIndicator.style.display = 'none';
+        const chk = document.getElementById('sim-network-chk');
+        if (chk) chk.checked = true;
+        writeSimConsole("SYSTEM: Network connection ONLINE. Cloud sync enabled.");
     } else {
         body.classList.add('offline');
-        banner.style.display = 'flex';
-        headerIndicator.style.display = 'inline-block';
-        headerIndicator.innerText = "OFFLINE";
-        document.getElementById('sim-network-chk').checked = false;
-        writeSimConsole("SYSTEM WARNING: Offline Mode Enabled. All data will write locally.");
+        if (banner) banner.style.display = 'flex';
+        if (headerIndicator) {
+            headerIndicator.style.display = 'inline-block';
+            headerIndicator.innerText = "OFFLINE";
+        }
+        const chk = document.getElementById('sim-network-chk');
+        if (chk) chk.checked = false;
+        writeSimConsole("SYSTEM WARNING: Offline Mode. All records will be stored locally in SQLite cache.");
     }
 
-    // Refresh active screen state
-    showMobileScreen(ACTIVE_SCREEN);
+    // Refresh sync center if open
+    if (ACTIVE_SCREEN === 'screen-mob-sync') loadSyncCenter();
 }
 
-// Login
+// ============================================================
+// 4. Login & Authentication
+// ============================================================
+
 function handleMobileLogin(e) {
     if (e) e.preventDefault();
-    writeSimConsole("AUTH SUCCESS: Logged in as Field Assistant Engineer");
+    writeSimConsole(`AUTH SUCCESS: Logged in as ${CURRENT_MOBILE_ROLE}`);
     showMobileScreen('screen-mob-dashboard');
 }
 
-// Dashboard Loader
+function handleLogout() {
+    writeSimConsole("AUTH: User logged out");
+    showMobileScreen('screen-mob-login');
+}
+
+// ============================================================
+// 5. Dashboard Data Loader
+// ============================================================
+
 function loadMobileDashboard() {
-    // Fill local badges
     const totalPending = PENDING_SYNC_ITEMS.inspections + PENDING_SYNC_ITEMS.observations + PENDING_SYNC_ITEMS.works;
-    document.getElementById('dash-pending-sync').innerText = totalPending;
-    document.getElementById('dash-last-sync').innerText = new Date().toLocaleDateString() + " 10:30 AM";
-    document.getElementById('dash-offline-count').innerText = totalPending;
+    const pendEl = document.getElementById('dash-pending-sync');
+    const offlineEl = document.getElementById('dash-offline-count');
+    const lastSyncEl = document.getElementById('dash-last-sync');
+
+    if (pendEl) pendEl.innerText = totalPending;
+    if (offlineEl) offlineEl.innerText = totalPending;
+    if (lastSyncEl) lastSyncEl.innerText = new Date().toLocaleDateString() + " 10:30 AM";
     
-    // Bottom nav sync queue badge indicator
+    // Bottom nav sync badge counter
     const navBadge = document.getElementById('nav-sync-badge');
     if (navBadge) {
         if (totalPending > 0) {
@@ -172,11 +332,14 @@ function loadMobileDashboard() {
     }
 }
 
-// Inspections List Loader
+// ============================================================
+// 6. Inspections & Dam Profiles
+// ============================================================
+
 const ASSIGNED_INSPECTIONS = [
-    { id: "INSP-2025-01", damId: "D00123", name: "Hirakud Dam", type: "Pre-Monsoon Inspection", date: "Today, 13 Aug 2026", priority: "High", location: "Sambalpur" },
-    { id: "INSP-2025-02", damId: "D00124", name: "Rengali Dam", type: "Periodic Safety Audit", date: "18 Aug 2026", priority: "High", location: "Angul" },
-    { id: "INSP-2025-03", damId: "D00126", name: "Balimela Dam", type: "Comprehensive Structural Review", date: "20 Aug 2026", priority: "Medium", location: "Malkangiri" }
+    { id: "INSP-2025-01", damId: "D00123", name: "Hirakud Dam", type: "Pre-Monsoon Inspection", date: "Today, 18 Aug 2026", priority: "High", location: "Sambalpur" },
+    { id: "INSP-2025-02", damId: "D00124", name: "Rengali Dam", type: "Periodic Safety Audit", date: "22 Aug 2026", priority: "High", location: "Angul" },
+    { id: "INSP-2025-03", damId: "D00126", name: "Balimela Dam", type: "Comprehensive Structural Review", date: "28 Aug 2026", priority: "Medium", location: "Malkangiri" }
 ];
 
 function loadMobileInspections() {
@@ -186,13 +349,13 @@ function loadMobileInspections() {
     listBody.innerHTML = ASSIGNED_INSPECTIONS.map(insp => `
         <div class="mobile-list-item" onclick="drillToDamProfile('${insp.damId}')">
             <div>
-                <strong style="font-size:13px;">${insp.name}</strong>
-                <div style="font-size:10px; color:#555; margin-top:2px;">Type: ${insp.type}</div>
-                <div style="font-size:10px; color:#cc0000; font-weight:bold; margin-top:2px;">Planned: ${insp.date}</div>
+                <strong style="font-size:13px; color:var(--gov-navy);">${insp.name}</strong>
+                <div style="font-size:11px; color:#475569; margin-top:2px;">${insp.type}</div>
+                <div style="font-size:10px; color:var(--gov-red); font-weight:700; margin-top:2px;">📅 Planned: ${insp.date}</div>
             </div>
             <div style="text-align:right;">
-                <span class="status-pill ${insp.priority === 'High' ? 'red' : 'amber'}" style="font-size:8px;">${insp.priority}</span>
-                <div style="font-size:9px; color:#666; margin-top:4px;">${insp.location}</div>
+                <span class="status-pill ${insp.priority === 'High' ? 'red' : 'amber'}">${insp.priority}</span>
+                <div style="font-size:10px; color:#64748b; margin-top:4px;">📍 ${insp.location}</div>
             </div>
         </div>
     `).join('');
@@ -203,7 +366,6 @@ function drillToDamProfile(damId) {
     showMobileScreen('screen-mob-dam-profile');
 }
 
-// Dam Profile Loader
 const MOBILE_DAMS_MOCK = {
     D00123: { name: "Hirakud Dam", id: "D00123", district: "Sambalpur", division: "Sambalpur Division", circle: "Northern Circle", basin: "Mahanadi", river: "Mahanadi", type: "Composite Masonry & Earth", safetyClass: "High Risk (RED status)", lastInsp: "12 Apr 2025", nextInsp: "12 Oct 2025", criticalObs: 8, openObs: 12, works: 3 },
     D00124: { name: "Rengali Dam", id: "D00124", district: "Angul", division: "Sundargarh Division", circle: "Northern Circle", basin: "Brahmani", river: "Brahmani", type: "Concrete Gravity", safetyClass: "High Risk (AMBER status)", lastInsp: "18 Mar 2025", nextInsp: "18 Sep 2025", criticalObs: 2, openObs: 5, works: 2 },
@@ -228,31 +390,33 @@ function loadMobileDamProfile(damId) {
     document.getElementById('mob-prof-works').innerText = dam.works;
 }
 
-// Start Inspection Clicked
 function handleStartInspection() {
     showMobileScreen('screen-mob-details');
 }
 
-// Inspection Details Loader
 function loadMobileInspectionDetails() {
     const dam = MOBILE_DAMS_MOCK[SELECTED_DAM_ID] || MOBILE_DAMS_MOCK.D00123;
     document.getElementById('mob-det-damname').innerText = dam.name;
     document.getElementById('mob-det-damid').innerText = dam.id;
 }
 
-// Checklist Loader
+// ============================================================
+// 7. Checklists & Observation Logging
+// ============================================================
+
 const CHECKLIST_ITEMS = [
-    { section: "Dam Structure", items: [
-        { id: "str_cracks", label: "Concrete/Masonry Cracks" },
-        { id: "str_settlement", label: "Foundation/Crest Settlement" },
-        { id: "str_seepage", label: "Structural Joints Seepage" }
+    { section: "Structural & Masonry", items: [
+        { id: "str_cracks", label: "Upstream / Downstream Face Cracks" },
+        { id: "str_settlement", label: "Foundation & Crest Settlement" },
+        { id: "str_seepage", label: "Contraction Joint Seepage" }
     ]},
-    { section: "Spillway Wing", items: [
-        { id: "sp_leakage", label: "Spillway Crest Leakage" },
-        { id: "sp_hoist", label: "Hoist motor & gearing tooth wear" }
+    { section: "Spillway & Hydromechanical", items: [
+        { id: "sp_leakage", label: "Radial Crest Gate Seal Leakage" },
+        { id: "sp_hoist", label: "Hoist Motor & Gearing Mechanism" }
     ]},
-    { section: "Drainage Gallery", items: [
-        { id: "dr_clog", label: "Drainage pipe calcification/clog" }
+    { section: "Drainage Gallery & Instruments", items: [
+        { id: "dr_clog", label: "Drainage Hole Calcification / Flow" },
+        { id: "inst_piezo", label: "Piezometer Pressure Readings" }
     ]}
 ];
 
@@ -268,9 +432,9 @@ function loadMobileChecklist() {
                 <div class="checklist-mobile-row">
                     <div class="checklist-mobile-label">${item.label}</div>
                     <div class="checklist-btn-group">
-                        <button class="chk-btn ${currentVal === 'OK' ? 'active-ok' : ''}" onclick="selectChecklistItem('${item.id}', 'OK', this)">OK</button>
-                        <button class="chk-btn ${currentVal === 'Issue' ? 'active-issue' : ''}" onclick="selectChecklistItem('${item.id}', 'Issue', this)">Issue</button>
-                        <button class="chk-btn ${currentVal === 'NA' ? 'active-na' : ''}" onclick="selectChecklistItem('${item.id}', 'NA', this)">N/A</button>
+                        <button type="button" class="chk-btn ${currentVal === 'OK' ? 'active-ok' : ''}" onclick="selectChecklistItem('${item.id}', 'OK', this)">OK</button>
+                        <button type="button" class="chk-btn ${currentVal === 'Issue' ? 'active-issue' : ''}" onclick="selectChecklistItem('${item.id}', 'Issue', this)">Issue</button>
+                        <button type="button" class="chk-btn ${currentVal === 'NA' ? 'active-na' : ''}" onclick="selectChecklistItem('${item.id}', 'NA', this)">N/A</button>
                     </div>
                 </div>
             `;
@@ -281,7 +445,7 @@ function loadMobileChecklist() {
 function selectChecklistItem(itemId, value, btnElement) {
     LOCAL_DB.checklistStore[itemId] = value;
     
-    // Toggle active styles on siblings
+    // Toggle active styles on buttons
     const parentGroup = btnElement.parentElement;
     parentGroup.querySelectorAll('.chk-btn').forEach(btn => {
         btn.className = 'chk-btn';
@@ -290,20 +454,17 @@ function selectChecklistItem(itemId, value, btnElement) {
     if (value === 'OK') btnElement.classList.add('active-ok');
     else if (value === 'Issue') {
         btnElement.classList.add('active-issue');
-        
-        // Auto prompt user to Record Observation!
         setTimeout(() => {
-            if (confirm("You marked an ISSUE. Would you like to record a detailed safety observation and take photographs?")) {
+            if (confirm("Defect identified on item. Would you like to record a detailed safety observation and take geotagged photos?")) {
                 showMobileScreen('screen-mob-record-observation');
             }
-        }, 300);
+        }, 200);
     }
     else if (value === 'NA') btnElement.classList.add('active-na');
 
     writeSimConsole(`CHECKLIST: Item ${itemId} set to ${value}`);
 }
 
-// 7. Record Observation Logic
 function handleSaveObservation(e) {
     if (e) e.preventDefault();
 
@@ -314,10 +475,10 @@ function handleSaveObservation(e) {
 
     const newObs = {
         id: `OBS-MOB-00${LOCAL_DB.observationsDrafts.length + 1}`,
-        description: desc || "No description provided.",
+        description: desc || "Structural defect logged.",
         category: category,
         severity: severity,
-        targetDate: target || "TBD",
+        targetDate: target || "30 Sep 2026",
         damId: SELECTED_DAM_ID,
         gps: "21.5721 N, 83.8710 E",
         status: "Identified",
@@ -327,71 +488,79 @@ function handleSaveObservation(e) {
     LOCAL_DB.observationsDrafts.push(newObs);
     PENDING_SYNC_ITEMS.observations++;
     
-    writeSimConsole(`SUCCESS: Safety Observation recorded offline. Severity: ${severity}`);
+    writeSimConsole(`SUCCESS: Observation recorded (${severity}). Saved to offline queue.`);
+    alert("Observation saved! Tagged with GPS: 21.5721 N, 83.8710 E");
     
-    // Reset attached photo list
     attachedPhotos = [];
     document.getElementById('mob-obs-desc').value = '';
-    
     showMobileScreen('screen-mob-checklist');
 }
 
-// 8. Capture Photo Simulator
+// ============================================================
+// 8. Photographic Evidence & GPS Camera Simulation
+// ============================================================
+
 let attachedPhotos = [];
 function handleAttachPhoto() {
-    const photoId = `photo_field_${attachedPhotos.length + 1}.jpg`;
+    const photoId = `dam_photo_${attachedPhotos.length + 1}.jpg`;
     attachedPhotos.push(photoId);
     
-    // Render preview list
     const previewArea = document.getElementById('mob-photo-previews');
     if (previewArea) {
         previewArea.innerHTML += `
-            <div class="wireframe-photo-placeholder" style="height:90px; width:100px; margin-right:8px; display:inline-block; vertical-align:top;">
-                <span>📷 ${photoId}</span>
-                <div style="font-size:6px; margin-top:2px;">Geotagged Checked</div>
+            <div class="photo-geotag-card">
+                <div class="photo-geotag-img">📷</div>
+                <div class="photo-geotag-meta">
+                    <strong>${photoId}</strong><br>
+                    GPS: 21.5721°N, 83.8710°E<br>
+                    ${new Date().toLocaleTimeString()}
+                </div>
             </div>
         `;
     }
 
-    writeSimConsole(`CAMERA: Geotagged photo ${photoId} captured successfully.`);
-    alert("Photograph captured! Image size: 2.1 MB. Coordinates stamped: 21.57212 N, 83.87105 E");
+    writeSimConsole(`CAMERA: Geotagged photo ${photoId} captured (GPS: 21.5721 N, 83.8710 E)`);
+    alert(`Photo captured successfully!\n\nFile: ${photoId}\nGPS: 21.57212°N, 83.87105°E\nAccuracy: ±3.2m\nTimestamp: ${new Date().toLocaleTimeString()}`);
 }
 
-// Sync Center Loader
+// ============================================================
+// 9. Sync Center & Cloud Push
+// ============================================================
+
 function loadSyncCenter() {
     document.getElementById('sync-insps-count').innerText = PENDING_SYNC_ITEMS.inspections;
     document.getElementById('sync-obs-count').innerText = PENDING_SYNC_ITEMS.observations;
     document.getElementById('sync-works-count').innerText = PENDING_SYNC_ITEMS.works;
 
     const statusEl = document.getElementById('sync-connection-text');
-    if (IS_ONLINE) {
-        statusEl.innerText = "Connected (Online)";
-        statusEl.style.color = "green";
-    } else {
-        statusEl.innerText = "Offline Mode Active";
-        statusEl.style.color = "red";
+    if (statusEl) {
+        if (IS_ONLINE) {
+            statusEl.innerText = "Connected (Online)";
+            statusEl.style.color = "var(--gov-green)";
+        } else {
+            statusEl.innerText = "Offline Mode Active (No Network)";
+            statusEl.style.color = "var(--gov-red)";
+        }
     }
 }
 
-// Sync Clicked
 function triggerSyncNow() {
     if (!IS_ONLINE) {
-        alert("ERROR: Cannot synchronize while device is in OFFLINE mode. Please connect to a network or toggle Online status on the control panel.");
-        writeSimConsole("ERROR: Sync failed. Network not available.");
+        alert("ERROR: Cannot synchronize while in OFFLINE mode. Please enable network simulation in the control panel.");
+        writeSimConsole("ERROR: Sync failed — device is offline.");
         return;
     }
 
     const total = PENDING_SYNC_ITEMS.inspections + PENDING_SYNC_ITEMS.observations + PENDING_SYNC_ITEMS.works;
     if (total === 0) {
-        alert("No unsynced local drafts found in local SQLite database.");
+        alert("All local drafts are already synchronized with the Central Dam Registry.");
         return;
     }
 
-    writeSimConsole("SYNC: Connecting to Water Resources Cloud Gateway...");
+    writeSimConsole("SYNC: Connecting to State Water Resources Cloud Gateway...");
     setTimeout(() => {
-        writeSimConsole(`SYNC SUCCESS: Uploaded ${total} field reports to Dam Registry.`);
+        writeSimConsole(`SYNC SUCCESS: Uploaded ${total} field items to Central Registry.`);
         
-        // Reset counts
         PENDING_SYNC_ITEMS.inspections = 0;
         PENDING_SYNC_ITEMS.observations = 0;
         PENDING_SYNC_ITEMS.works = 0;
@@ -402,11 +571,14 @@ function triggerSyncNow() {
 
         loadSyncCenter();
         loadMobileDashboard();
-        alert("Synchronization complete! Central Management Dashboard updated.");
-    }, 1200);
+        alert("Synchronization complete! All records uploaded to Central Management Portal.");
+    }, 1000);
 }
 
-// Progress Submit (Screen 11)
+// ============================================================
+// 10. Rehabilitation Works Progress Logging
+// ============================================================
+
 function handleSubmitWorkProgress(e) {
     if (e) e.preventDefault();
     const milestone = document.getElementById('mob-work-milestone').value;
@@ -419,24 +591,26 @@ function handleSubmitWorkProgress(e) {
     });
     PENDING_SYNC_ITEMS.works++;
     
-    writeSimConsole(`SUCCESS: Work progress submission saved offline. Milestone: ${milestone} at ${progress}%`);
-    alert("Work progress saved offline! Sync when network becomes available.");
+    writeSimConsole(`SUCCESS: Work progress saved offline: ${milestone} at ${progress}%`);
+    alert(`Progress report logged (${progress}% completed).\nSaved in offline queue for cloud sync.`);
     showMobileScreen('screen-mob-dashboard');
 }
 
-// Review & Submit (Screen 12)
+// ============================================================
+// 11. Review & Submit
+// ============================================================
+
 function loadMobileReviewSubmit() {
     const totalItems = Object.keys(LOCAL_DB.checklistStore).length;
-    const issues = Object.values(LOCAL_DB.checklistStore).filter(val => val === 'Issue').length;
     
-    document.getElementById('rev-chk-complete').innerText = `${totalItems} items completed`;
-    document.getElementById('rev-obs-count').innerText = LOCAL_DB.observationsDrafts.length;
-    document.getElementById('rev-photos-count').innerText = attachedPhotos.length;
+    document.getElementById('rev-chk-complete').innerText = `${totalItems} checklist items reviewed`;
+    document.getElementById('rev-obs-count').innerText = `${LOCAL_DB.observationsDrafts.length} observations logged`;
+    document.getElementById('rev-photos-count').innerText = `${attachedPhotos.length} photos attached`;
 
     const warningEl = document.getElementById('rev-warning-msg');
-    if (totalItems < 5) {
+    if (totalItems < 3) {
         warningEl.style.display = 'block';
-        warningEl.innerText = "⚠️ WARNING: Checklist has incomplete sections. Mandatory safety verification required.";
+        warningEl.innerText = "⚠️ Incomplete Checklist: Statutory pre-monsoon compliance requires all items checked.";
     } else {
         warningEl.style.display = 'none';
     }
@@ -444,33 +618,44 @@ function loadMobileReviewSubmit() {
 
 function handleMobileFinalSubmit() {
     PENDING_SYNC_ITEMS.inspections++;
-    writeSimConsole("SUCCESS: Completed field inspection draft saved to offline database.");
-    alert("Inspection saved! Draft stored in Sync queue.");
+    writeSimConsole("SUCCESS: Completed field inspection draft saved to local database.");
+    alert("Inspection Report finalized! Added to Sync Queue.");
     showMobileScreen('screen-mob-dashboard');
 }
 
-// Mobile Alerts
-function loadMobileAlerts() {
-    // Fill static alert cards
+// ============================================================
+// 12. Profile & Alarms
+// ============================================================
+
+function loadMobileProfile() {
+    const nameMap = {
+        "Junior Engineer": { name: "G. C. Biswal", title: "Junior Engineer (Civil)", div: "Sambalpur Division" },
+        "Assistant Engineer": { name: "B. Pujari", title: "Assistant Engineer", div: "Northern Circle" },
+        "Executive Engineer": { name: "S. K. Patnaik", title: "Executive Engineer", div: "Odisha Central Wing" },
+        "Vendor/Contractor": { name: "M/s Utkal Infrastructure", title: "Executing Contractor", div: "Rehabilitation Package #04" }
+    };
+    const prof = nameMap[CURRENT_MOBILE_ROLE] || nameMap["Junior Engineer"];
+    
+    const nameEl = document.getElementById('mob-profile-name');
+    const titleEl = document.getElementById('mob-profile-role');
+    const divEl = document.getElementById('mob-profile-div');
+
+    if (nameEl) nameEl.innerText = prof.name;
+    if (titleEl) titleEl.innerText = prof.title;
+    if (divEl) divEl.innerText = prof.div;
 }
 
-// Observation details
-function loadMobileObservationDetail() {
-    // Fill details
-}
+function loadMobileAlerts() {}
+function loadMobileObservationDetail() {}
+function loadMobileCorrectiveAction() {}
+function loadMobileWorkProgress() {}
 
-// Corrective action details
-function loadMobileCorrectiveAction() {
-    // Fill details
-}
-
-// Work Progress loader
-function loadMobileWorkProgress() {
-    // Initialize slider values
-}
-
+// ============================================================
 // Bootstrapping
+// ============================================================
+
 window.addEventListener('DOMContentLoaded', () => {
-    // Set simulator default mode
     setNetworkStatus(true);
+    setMobileRole("Junior Engineer");
+    writeSimConsole("Mobile Field App Initialized. Ready.");
 });
